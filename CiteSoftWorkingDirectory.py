@@ -21,24 +21,37 @@ def module_call_cite(func, unique_id, software_name, **kwargs):
     return inner
 
 def import_cite(unique_id, software_name, **kwargs):
-    add_citation(unique_id, software_name, kwargs)
+    add_citation(unique_id, software_name, **kwargs)
 
 
 def add_citation(unique_id, software_name, **kwargs):
-    new_entry = {'unique_id' : unique_id, 'software_name' : software_name, 'timestamp' : getTimestamp()}
+    new_entry = {'unique_id' : unique_id, 'software_name' : software_name, 'timestamp' : get_timestamp(), 'version' : '1.00'}
     for key in kwargs:
         new_entry[key] = kwargs[key]
-    if unique_id in citations:#Check for duplicate entries(e.g. from calling the same function twice)
-        pass#For now, do nothing
-    else
-        citations[unique_id] = dict
+    if unique_id in _citations:#Check for duplicate entries(e.g. from calling the same function twice)
+        _citations[unique_id] = compare_same_id(_citations[unique_id], new_entry)
+    else:
+        _citations[unique_id] = new_entry
 
 def compile_cite_software_log():
-    for()
+    with open(_OUTPUT_FILE_NAME, 'a') as file:
+        file.write('---\r\n')
+        print("loop")
+        for key,dict in _citations.items():
+            file.write('-\r\n')
+            for s in {'timestamp', 'unique_id', 'software_name', 'version'}:
+                file.write('    ' + s + ': >-\r\n')
+                file.write('        ' + dict[s] + '\r\n')
+            for subkey in dict:
+                if subkey not in {'timestamp', 'unique_id', 'software_name', 'version'}:
+                    file.write('    ' + subkey + '\r\n')
+                    file.write('        ' + dict[subkey] + '\r\n')
+#TODO : Syntax of exporting optional fields
 
 def consolidate_software_log():
     with open(_OUTPUT_FILE_NAME) as file:
         file_contents = yaml.safe_load(file)
+    #TODO : Consolidation code
 
 #Helper Functions
 
@@ -62,3 +75,14 @@ def compare_same_id(old_entry, new_entry):
         return new_entry
     else:#If neither entry has a version, don't replace the existing entry
         return old_entry
+
+def main():
+    print("Hello World!")
+    unique_id = "TestID"
+    software_name = "CiteSoft"
+    import_cite(unique_id, software_name)
+    print(_citations)
+    compile_cite_software_log()
+
+if __name__ == '__main__':
+    main()
