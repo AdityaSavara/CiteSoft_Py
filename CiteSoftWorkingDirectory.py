@@ -1,4 +1,4 @@
-#------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------
 # Cite Soft
 #
 # Python 3.6
@@ -6,11 +6,16 @@
 # Developer : CPH
 # Date      : 06-02-2020
 #
-#------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------
+from __future__ import print_function
 from datetime import datetime
 import yaml
 import semantic_version
 import re
+import sys
+
+def eprint(*args, **kwargs):#Print to stderr
+    print(*args, file=sys.stderr, **kwargs)
 
 #Dependencies for testing only
 from random import randint
@@ -18,6 +23,9 @@ from random import randint
 _citations = {}
 _OUTPUT_FILE_NAME = "CiteSoftwareCheckPoints.txt"
 _CONSOLIDATED_FILE_NAME = "CiteSoftwareConsolidatedLog.txt"
+_VALIDATE_OPT_ARG = True#Flag.  If set to true, argument names will be checked in real time, and invalid argument names will result in a printed warning to the user
+_VALID_OPT_ARG = ["version", "cite", "author", "doi", "url", "encoding", "misc"]
+_REQ_ARGS = ['timestamp', 'unique_id', 'software_name']
 
 def module_call_cite(unique_id, software_name, **add_args):
     def inner(func):
@@ -33,8 +41,11 @@ def import_cite(unique_id, software_name, **kwargs):
 
 
 def add_citation(unique_id, software_name, **kwargs):
-    new_entry = {'unique_id' : unique_id, 'software_name' : software_name, 'timestamp' : get_timestamp(), 'version' : '1.00'}
+    new_entry = {'unique_id' : unique_id, 'software_name' : software_name, 'timestamp' : get_timestamp()}
     for key in kwargs:
+        if _VALIDATE_OPT_ARG:
+            if not key in _VALID_OPT_ARG:
+                eprint("Warning, " + key + " is not an officially supported argument name.  Use of alternative argument names is strongly discouraged.")
         new_entry[key] = kwargs[key]
     if unique_id in _citations:#Check for duplicate entries(e.g. from calling the same function twice)
         _citations[unique_id] = compare_same_id(_citations[unique_id], new_entry)
@@ -47,6 +58,15 @@ def compile_cite_software_log():
 
 def consolidate_software_log():
     consolidated_dict = {}
+    with open(_CONSOLIDATED_FILE_NAME) as file:
+        file_contents = yaml.safe_load_all(file)
+        for yaml_file in file_contents:
+            for item in yaml_file:
+                id = item["unique_id"]
+                if id in consolidated_dict:
+                    consolidated_dict[id] = compare_same_id(consolidated_dict[id], item)
+                else:
+                    consolidated_dict[id] = item
     with open(_OUTPUT_FILE_NAME) as file:
         file_contents = yaml.safe_load_all(file)
         for yaml_file in file_contents:
@@ -64,11 +84,11 @@ def write_dict_to_output(file, dictionary):
     file.write('---\r\n')
     for key,dict in dictionary.items():
         file.write('-\r\n')
-        for s in {'timestamp', 'unique_id', 'software_name', 'version'}:
+        for s in _REQ_ARGS:
             file.write('    ' + s + ': >-\r\n')
             file.write('    '*2 + dict[s] + '\r\n')
         for subkey in dict:
-            if subkey not in {'timestamp', 'unique_id', 'software_name', 'version'}:
+            if subkey not in _REQ_ARGS:
                 file.write('    ' + subkey + ':\r\n')
                 if type(dict[subkey]) is list:
                     for i in dict[subkey]:
@@ -92,12 +112,12 @@ def compare_same_id(old_entry, new_entry):
     old_has_version = "version" in old_entry
     new_has_version = "version" in new_entry
     if old_has_version and new_has_version:#If both entries have a version, compare them return and the return the greater(newer) version
-        old_ver_str = old_entry["version"]
-        new_ver_str = new_entry["version"]
+        old_ver_str = str(old_entry["version"])
+        new_ver_str = str(new_entry["version"])
         try:
             old_sv = semantic_version.Version(old_ver_str)
             new_sv = semantic_version.Version(new_ver_str)
-            if old_sv > new_sv:
+            if old_sv >= new_sv:
                 return old_entry
             else:
                 return new_entry
@@ -107,17 +127,17 @@ def compare_same_id(old_entry, new_entry):
                 try:
                     old_ver_float = float(old_ver_str)
                     new_ver_float = float(new_ver_str)
-                    if old_ver_float > new_ver_float:
+                    if old_ver_float >= new_ver_float:
                         return old_entry
                     else:
                         return new_entry
                 except ValueError:
-                    if old_ver_str > new_ver_str:
+                    if old_ver_str >= new_ver_str:
                         return old_entry
                     else:
                         return new_entry
             else:
-                if old_ver_str > new_ver_str:
+                if old_ver_str >= new_ver_str:
                     return old_entry
                 else:
                     return new_entry
@@ -125,13 +145,14 @@ def compare_same_id(old_entry, new_entry):
         return old_entry
     elif not old_has_version and new_has_version:#Likewise, if new entry has a version and the old entry doesn't, the entry with a version takes precedence
         return new_entry
-    else:#If neither entry has a version, save the new entry
-        return new_entry
+    else:#If neither entry has a version, save the old entry
+        return old_entry
 
 def main():
     print("Welcome to CiteSoft!")
     print("Running test cases...")
     test_inline_citation()
+    test_inline_citation_err()
     test_wrapper_func()
     test_semantic_version()
     test_decimal_version()
@@ -145,6 +166,13 @@ def test_inline_citation():
     unique_id = "TestID"
     software_name = "CiteSoft"
     import_cite(unique_id, software_name)
+
+def test_inline_citation_err():
+    print("Testing inline citations")
+    unique_id = "TestID"
+    software_name = "CiteSoft"
+    kwargs = {"nonstandardfieldname" : "value"}
+    import_cite(unique_id, software_name, **kwargs)
 
 def test_semantic_version():
     print("Testing semantic version comparison")
