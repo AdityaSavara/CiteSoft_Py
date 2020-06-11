@@ -118,6 +118,11 @@ def compare_same_id(old_entry, new_entry):
         new_ver_str = str(new_entry["version"][0])
         old_ver_semver_valid = True
         new_ver_semver_valid = True
+        regex = "^[0-9]*\.[0-9]*$"
+        if re.match(regex, old_ver_str):
+            old_ver_str += '.0'#To ensure semantic version parser handles a decimal value correctly
+        if re.match(regex, new_ver_str):
+            new_ver_str += '.0'#To ensure semantic version parser handles a decimal value correctly
         try:
             old_sv = semantic_version.Version(old_ver_str)
         except ValueError:
@@ -135,23 +140,12 @@ def compare_same_id(old_entry, new_entry):
             return old_entry
         elif new_ver_semver_valid:#If only the new entry has a valid SemVer version, keep it
             return new_entry
-        else:#If neither entry has a valid semver version, try decimal comparison
-            try:
-                regex = "[0-9]*\.[0-9]*"
-                if re.match(regex, old_ver_str) and re.match(regex, new_ver_str):
-                    old_ver_float = float(old_ver_str)
-                    new_ver_float = float(new_ver_str)
-                    if old_ver_float >= new_ver_float:
-                        return old_entry
-                    else:
-                        return new_entry
-                else:
-                    raise ValueError('Regex check failed')
-            except ValueError:#Decimal comparison failed, use alphanumeric comparison
-                if old_ver_str >= new_ver_str:
-                    return old_entry
-                else:
-                    return new_entry
+        else:
+            #Version comparison failed, use alphanumeric comparison
+            if old_ver_str >= new_ver_str:
+                return old_entry
+            else:
+                return new_entry
     elif old_has_version and not new_has_version:#If old entry has a version and the new entry doesn't, the entry with a version takes precedence
         return old_entry
     elif not old_has_version and new_has_version:#Likewise, if new entry has a version and the old entry doesn't, the entry with a version takes precedence
@@ -187,7 +181,7 @@ def test_inline_citation_err():
 
 def test_semantic_version():
     print("Testing semantic version comparison")
-    unique_id = "semantic_ver_test"
+    unique_id = "ver_test"
     software_name = "CiteSoft"
     for _ in range(1, 4):
         kwargs = {"version": str(randint(0,10)) + '.' + str(randint(0,10)) + '.' + str(randint(0,10))}
@@ -196,7 +190,7 @@ def test_semantic_version():
 
 def test_decimal_version():
     print("Testing decimal version comparison")
-    unique_id = "decimal_ver_test"
+    unique_id = "ver_test"
     software_name = "CiteSoft"
     for _ in range(1, 4):
         kwargs = {"version": str(randint(0,10)) + '.' + str(randint(0,10))}
