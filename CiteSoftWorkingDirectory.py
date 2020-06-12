@@ -116,12 +116,13 @@ def compare_same_id(old_entry, new_entry):
     if old_has_version and new_has_version:#If both entries have a version, compare them return and the return the greater(newer) version
         old_ver_str = str(old_entry["version"][0])
         new_ver_str = str(new_entry["version"][0])
+        #Initialize variables, assume strings are valid unless parsing fails
         old_ver_semver_valid = True
         new_ver_semver_valid = True
-        regex = "^[0-9]*\.[0-9]*$"
-        if re.match(regex, old_ver_str):
+        decimal_regex_str = "^[0-9]+\.[0-9]+$"#Match string with decimal point enclosed by at least one number on either side
+        if re.match(decimal_regex_str, old_ver_str):
             old_ver_str += '.0'#To ensure semantic version parser handles a decimal value correctly
-        if re.match(regex, new_ver_str):
+        if re.match(decimal_regex_str, new_ver_str):
             new_ver_str += '.0'#To ensure semantic version parser handles a decimal value correctly
         try:
             old_sv = semantic_version.Version(old_ver_str)
