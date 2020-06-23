@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------------------------------------
-# Cite Soft
+# CiteSoft
 #
 # Python 3.6
 #
@@ -16,9 +16,6 @@ import sys
 
 def eprint(*args, **kwargs):#Print to stderr
     print(*args, file=sys.stderr, **kwargs)
-
-#Dependencies for testing only
-from random import randint
 
 _citations = {}
 _OUTPUT_FILE_NAME = "CiteSoftwareCheckPoints.txt"
@@ -54,13 +51,13 @@ def add_citation(unique_id, software_name, **kwargs):
     else:
         _citations[unique_id] = new_entry
 
-def compile_cite_software_log():
-    with open(_OUTPUT_FILE_NAME, 'a') as file:
+def compile_cite_software_log(file_path="./"):
+    with open(file_path + _OUTPUT_FILE_NAME, 'a') as file:
         write_dict_to_output(file, _citations)
 
-def consolidate_software_log():
+def consolidate_software_log(file_path="./"):
     consolidated_dict = {}
-    with open(_CONSOLIDATED_FILE_NAME) as file:
+    with open(file_path + _CONSOLIDATED_FILE_NAME) as file:
         file_contents = yaml.safe_load_all(file)
         for yaml_file in file_contents:
             for item in yaml_file:
@@ -143,7 +140,7 @@ def compare_same_id(old_entry, new_entry):
             return new_entry
         else:
             #Version comparison failed, use alphanumeric comparison
-            if old_ver_str >= new_ver_str:
+            if old_ver_str > new_ver_str:
                 return old_entry
             else:
                 return new_entry
@@ -151,68 +148,5 @@ def compare_same_id(old_entry, new_entry):
         return old_entry
     elif not old_has_version and new_has_version:#Likewise, if new entry has a version and the old entry doesn't, the entry with a version takes precedence
         return new_entry
-    else:#If neither entry has a version, save the old entry
-        return old_entry
-
-def main():
-    print("Welcome to CiteSoft!")
-    print("Running test cases...")
-    test_inline_citation()
-    test_inline_citation_err()
-    test_wrapper_func()
-    test_semantic_version()
-    test_decimal_version()
-    print("Appending citations to data file")
-    compile_cite_software_log()
-    consolidate_software_log()
-
-#Test Cases
-def test_inline_citation():
-    print("Testing inline citations")
-    unique_id = "TestID"
-    software_name = "CiteSoft"
-    import_cite(unique_id, software_name)
-
-def test_inline_citation_err():
-    print("Testing inline citations")
-    unique_id = "TestID"
-    software_name = "CiteSoft"
-    kwargs = {"nonstandardfieldname" : "value"}
-    import_cite(unique_id, software_name, **kwargs)
-
-def test_semantic_version():
-    print("Testing semantic version comparison")
-    unique_id = "ver_test"
-    software_name = "CiteSoft"
-    for _ in range(1, 4):
-        kwargs = {"version": str(randint(0,10)) + '.' + str(randint(0,10)) + '.' + str(randint(0,10))}
-        print("Adding citation with version : " + kwargs["version"])
-        import_cite(unique_id, software_name, **kwargs)
-
-def test_decimal_version():
-    print("Testing decimal version comparison")
-    unique_id = "ver_test"
-    software_name = "CiteSoft"
-    for _ in range(1, 4):
-        kwargs = {"version": str(randint(0,10)) + '.' + str(randint(0,10))}
-        print("Adding citation with version : " + kwargs["version"])
-        import_cite(unique_id, software_name, **kwargs)
-
-def test_wrapper_func():
-    print("Testing wrapper function")
-    a = 5
-    b = 12
-    print("Adding %d and %d", a, b)
-    res = func_cite_test_add(a, b)
-    print("Result : %d", res)
-
-unique_id = "func_cite_test_add"
-software_name = "CiteSoft"
-kwargs = {"version": "1.1.5", "author": "CPH", "language": "Python"}
-@module_call_cite(unique_id, software_name, **kwargs)
-def func_cite_test_add(x, y):
-    return x + y
-
-
-if __name__ == '__main__':
-    main()
+    else:#If neither entry has a version, save the new entry
+        return new_entry
