@@ -19,11 +19,11 @@ def eprint(*args, **kwargs):#Print to stderr
     print(*args, file=sys.stderr, **kwargs)
 
 citations_dict = {}
-checkpoint_log_filename = "CiteSoftwareCheckPoints.txt"
+checkpoint_log_filename = "CiteSoftwareCheckpointsLog.txt"
 consolidated_log_filename = "CiteSoftwareConsolidatedLog.txt"
 validate_on_fly = True#Flag.  If set to true, argument names will be checked in real time, and invalid argument names will result in a printed warning to the user
-valid_optional_args = ["version", "cite", "author", "doi", "url", "encoding", "misc"]
-valid_required_args = ['timestamp', 'unique_id', 'software_name']
+valid_optional_fields = ["version", "cite", "author", "doi", "url", "encoding", "misc"]
+valid_required_fields = ['timestamp', 'unique_id', 'software_name']
 
 #The module_call_cite function is intended to be used as a decorator.
 def module_call_cite(unique_id, software_name, write_immediately=False, **add_args):
@@ -47,7 +47,7 @@ def add_citation(unique_id, software_name, write_immediately=False, **kwargs):
     new_entry = {'unique_id' : unique_id, 'software_name' : software_name, 'timestamp' : get_timestamp()}
     for key in kwargs:
         if validate_on_fly:
-            if not key in valid_optional_args:
+            if not key in valid_optional_fields:
                 eprint("Warning, " + key + " is not an officially supported argument name.  Use of alternative argument names is strongly discouraged.")
         if type(kwargs[key]) is not list:#Make sure single optional args are wrapped in a list
             kwargs[key] = [kwargs[key]]
@@ -67,29 +67,36 @@ def compile_cite_software_log(file_path="./", empty_checkpoints=True):
 
 def consolidate_software_log(file_path=""):
     consolidated_dict = {}
-    if consolidated_log_filename in os.listdir():
+    if consolidated_log_filename in os.listdir(): #check if the file exists already.
         consolidated_log_exists = True
     else:
         consolidated_log_exists = False
-    if consolidated_log_exists == True:
+    if consolidated_log_exists == True: #can only read file if it exists.
         with open(file_path + consolidated_log_filename, "r") as file:
             yaml_file_contents = yaml.safe_load_all(file)
             for yaml_document in yaml_file_contents:
-                for citation_entry in yaml_document:
-                    id = citation_entry["unique_id"]
-                    if id in consolidated_dict:
-                        consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
-                    else:
-                        consolidated_dict[id] = citation_entry
-    with open(checkpoint_log_filename, 'r') as file:
-        yaml_file_contents = yaml.safe_load_all(file)
-        for yaml_document in yaml_file_contents:
-            for citation_entry in yaml_document:
-                id = citation_entry["unique_id"]
-                if id in consolidated_dict:
-                    consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
-                else:
-                    consolidated_dict[id] = citation_entry
+                if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
+                    for citation_entry in yaml_document:
+                        id = citation_entry["unique_id"]
+                        if id in consolidated_dict:
+                            consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
+                        else:
+                            consolidated_dict[id] = citation_entry
+    if checkpoint_log_filename in os.listdir(): #check if the file exists already.
+        checkpoint_log_exists = True
+    else:
+        checkpoint_log_exists = False
+    if checkpoint_log_exists == True: #can only read file if it exists.
+        with open(checkpoint_log_filename, 'r') as file:
+            yaml_file_contents = yaml.safe_load_all(file)
+            for yaml_document in yaml_file_contents:
+                if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
+                    for citation_entry in yaml_document:
+                        id = citation_entry["unique_id"]
+                        if id in consolidated_dict:
+                            consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
+                        else:
+                            consolidated_dict[id] = citation_entry
     with open(consolidated_log_filename, 'w') as file:
         write_dict_to_output(file, consolidated_dict)
 
@@ -98,11 +105,11 @@ def write_dict_to_output(file, dictionary):
     file.write('---\n')
     for key,dict in dictionary.items():
         file.write('-\n')
-        for s in valid_required_args:
+        for s in valid_required_fields:
             file.write('    ' + s + ': >-\n')
             file.write('    '*2 + dict[s] + '\n')
         for subkey in dict:
-            if subkey not in valid_required_args:
+            if subkey not in valid_required_fields:
                 file.write('    ' + subkey + ':\n')
                 if type(dict[subkey]) is list:
                     for i in dict[subkey]:

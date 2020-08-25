@@ -43,9 +43,9 @@ def mean(list_of_num):
     return result
 
 math_unique_id = "https://docs.python.org/3/library/math.html"
-math_software_name = "Mathematical functions"
+math_software_name = "The Python Library Reference: Mathematical functions"
 math_version = str(sys.version).split("|")[0] #This is the python version.
-math_kwargs = {"version": math_version, "author": "Python math module devs"}
+math_kwargs = {"version": math_version, "author": "Van Rossum, Guido", "cite": "Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation."}
 @module_call_cite(unique_id=math_unique_id, software_name=math_software_name, **math_kwargs)
 def sqrt(num):
     return math.sqrt(num)
