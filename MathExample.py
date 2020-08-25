@@ -72,6 +72,6 @@ def std_dev(list_of_num):
 #This is considered appropriate to do at the end of a complicated program, but is not necessary.
 def export_citation_checkpoints(filepath=""):
     if filepath is not "":
-        CiteSoft.compile_cite_software_log(filepath)
+        CiteSoft.compile_checkpoints_log(filepath)
     else:
-        CiteSoft.compile_cite_software_log()
+        CiteSoft.compile_checkpoints_log()

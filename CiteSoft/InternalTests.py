@@ -11,8 +11,8 @@ def main():
     test_semantic_version()
     test_decimal_version()
     print("Appending citations to data file")
-    compile_cite_software_log()
-    consolidate_software_log()
+    compile_checkpoints_log()
+    compile_consolidated_log()
 
 #Test Cases
 def test_inline_citation():

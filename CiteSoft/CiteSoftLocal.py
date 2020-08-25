@@ -57,15 +57,15 @@ def add_citation(unique_id, software_name, write_immediately=False, **kwargs):
     else:
         citations_dict[unique_id] = new_entry
     if write_immediately == True:
-        compile_checkpoints_log()
+        compile_cite_software_log()
        
-def compile_checkpoints_log(file_path="./", empty_checkpoints=True):
+def compile_cite_software_log(file_path="./", empty_checkpoints=True):
     with open(file_path + checkpoint_log_filename, 'a') as file:
         write_dict_to_output(file, citations_dict)
     if empty_checkpoints==True:
         citations_dict.clear()
 
-def compile_consolidated_log(file_path=""):
+def consolidate_software_log(file_path=""):
     consolidated_dict = {}
     if consolidated_log_filename in os.listdir(): #check if the file exists already.
         consolidated_log_exists = True
