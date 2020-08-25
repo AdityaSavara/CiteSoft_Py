@@ -1,6 +1,6 @@
 #Dependencies for testing only
 from random import randint
-from CiteSoft import *
+from CiteSoft_py import *
 
 def main():
     print("Welcome to CiteSoft!")

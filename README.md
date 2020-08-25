@@ -21,7 +21,7 @@ FOR END-USERS:
 The end-user may find the CiteSoftwareConsolidatedLog.txt to be convenient, but the authoritative list is the list inside CiteSoftwareCheckpoints.txt (though the checkpoint file may include duplicates). The end-user is responsible for citing ALL software used. To facilitate easy of doing so, the dev-user should call the consolidate command when appropriate (such as at the end of a simulation).
 
 A typical CiteSoft entry looks like below:
-
+<pre>
 -
     timestamp: >-
         2020-08-25T11:43:30
@@ -38,3 +38,4 @@ A typical CiteSoft entry looks like below:
     cite:
         - >-
             Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.
+</pre>
