@@ -9,8 +9,8 @@
 # ------------------------------------------------------------------------------------------------------------
 from __future__ import print_function
 from datetime import datetime
-import yaml
-import semantic_version
+#import yaml  #assume these are not available.
+#import semantic_version #assume these are not available.
 import re
 import sys
 import os
@@ -66,39 +66,40 @@ def compile_cite_software_log(file_path="./", empty_checkpoints=True):
         citations_dict.clear()
 
 def consolidate_software_log(file_path=""):
-    consolidated_dict = {}
-    if consolidated_log_filename in os.listdir(): #check if the file exists already.
-        consolidated_log_exists = True
-    else:
-        consolidated_log_exists = False
-    if consolidated_log_exists == True: #can only read file if it exists.
-        with open(file_path + consolidated_log_filename, "r") as file:
-            yaml_file_contents = yaml.safe_load_all(file)
-            for yaml_document in yaml_file_contents:
-                if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
-                    for citation_entry in yaml_document:
-                        id = citation_entry["unique_id"]
-                        if id in consolidated_dict:
-                            consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
-                        else:
-                            consolidated_dict[id] = citation_entry
-    if checkpoint_log_filename in os.listdir(): #check if the file exists already.
-        checkpoint_log_exists = True
-    else:
-        checkpoint_log_exists = False
-    if checkpoint_log_exists == True: #can only read file if it exists.
-        with open(checkpoint_log_filename, 'r') as file:
-            yaml_file_contents = yaml.safe_load_all(file)
-            for yaml_document in yaml_file_contents:
-                if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
-                    for citation_entry in yaml_document:
-                        id = citation_entry["unique_id"]
-                        if id in consolidated_dict:
-                            consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
-                        else:
-                            consolidated_dict[id] = citation_entry
-    with open(consolidated_log_filename, 'w') as file:
-        write_dict_to_output(file, consolidated_dict)
+    print("Warning: CiteSoftLocal cannot make a consolidated log. CiteSoftwareCheckpointsLog will need to be checked.")
+    # consolidated_dict = {}
+    # if consolidated_log_filename in os.listdir(): #check if the file exists already.
+        # consolidated_log_exists = True
+    # else:
+        # consolidated_log_exists = False
+    # if consolidated_log_exists == True: #can only read file if it exists.
+        # with open(file_path + consolidated_log_filename, "r") as file:
+            # yaml_file_contents = yaml.safe_load_all(file)
+            # for yaml_document in yaml_file_contents:
+                # if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
+                    # for citation_entry in yaml_document:
+                        # id = citation_entry["unique_id"]
+                        # if id in consolidated_dict:
+                            # consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
+                        # else:
+                            # consolidated_dict[id] = citation_entry
+    # if checkpoint_log_filename in os.listdir(): #check if the file exists already.
+        # checkpoint_log_exists = True
+    # else:
+        # checkpoint_log_exists = False
+    # if checkpoint_log_exists == True: #can only read file if it exists.
+        # with open(checkpoint_log_filename, 'r') as file:
+            # yaml_file_contents = yaml.safe_load_all(file)
+            # for yaml_document in yaml_file_contents:
+                # if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
+                    # for citation_entry in yaml_document:
+                        # id = citation_entry["unique_id"]
+                        # if id in consolidated_dict:
+                            # consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
+                        # else:
+                            # consolidated_dict[id] = citation_entry
+    # with open(consolidated_log_filename, 'w') as file:
+        # write_dict_to_output(file, consolidated_dict)
 
 #Takes a dictionary, converts it to CiteSoft-compatible YAML, and writes it to file
 def write_dict_to_output(file, dictionary):
@@ -130,6 +131,7 @@ def get_timestamp():
 #Compares two entries
 #Returns : The entry which should be kept
 def compare_same_id(old_entry, new_entry):
+    return new_entry #CiteSoftLocal will not do comparisons. It will just return the new_entry.
     old_has_version = "version" in old_entry
     new_has_version = "version" in new_entry
     if old_has_version and new_has_version:#If both entries have a version, compare them return and the return the greater(newer) version
