@@ -13,89 +13,104 @@ import yaml
 import semantic_version
 import re
 import sys
+import os
 
 def eprint(*args, **kwargs):#Print to stderr
     print(*args, file=sys.stderr, **kwargs)
 
-_citations = {}
-_OUTPUT_FILE_NAME = "CiteSoftwareCheckPoints.txt"
-_CONSOLIDATED_FILE_NAME = "CiteSoftwareConsolidatedLog.txt"
-_VALIDATE_OPT_ARG = True#Flag.  If set to true, argument names will be checked in real time, and invalid argument names will result in a printed warning to the user
-_VALID_OPT_ARG = ["version", "cite", "author", "doi", "url", "encoding", "misc"]
-_REQ_ARGS = ['timestamp', 'unique_id', 'software_name']
+citations_dict = {}
+checkpoint_log_filename = "CiteSoftwareCheckPoints.txt"
+consolidated_log_filename = "CiteSoftwareConsolidatedLog.txt"
+validate_on_fly = True#Flag.  If set to true, argument names will be checked in real time, and invalid argument names will result in a printed warning to the user
+valid_optional_args = ["version", "cite", "author", "doi", "url", "encoding", "misc"]
+valid_required_args = ['timestamp', 'unique_id', 'software_name']
 
-def module_call_cite(unique_id, software_name, **add_args):
+#The module_call_cite function is intended to be used as a decorator.
+def module_call_cite(unique_id, software_name, write_immediately=False, **add_args):
+    #the unique_id and the software_name are the only truly required args.
+    #Optional args are: ["version", "cite", "author", "doi", "url", "encoding", "misc"]
+    #Every arg must be a string.
     def inner(func):
         def call(*args, **kwargs):
-            import_cite(unique_id, software_name, **add_args)
+            add_citation(unique_id, software_name, write_immediately, **add_args)
             result = func(*args, **kwargs)
             return result
         return call
     return inner
 
-def import_cite(unique_id, software_name, **kwargs):
-    add_citation(unique_id, software_name, **kwargs)
+#The import_cite function is intended to be used at the top of a sofware module.
+def import_cite(unique_id, software_name, write_immediately=False, **kwargs):
+    add_citation(unique_id, software_name, write_immediately, **kwargs)
 
-
-def add_citation(unique_id, software_name, **kwargs):
+#The add_citation function is the method which actually adds a citation.
+def add_citation(unique_id, software_name, write_immediately=False, **kwargs):
     new_entry = {'unique_id' : unique_id, 'software_name' : software_name, 'timestamp' : get_timestamp()}
     for key in kwargs:
-        if _VALIDATE_OPT_ARG:
-            if not key in _VALID_OPT_ARG:
+        if validate_on_fly:
+            if not key in valid_optional_args:
                 eprint("Warning, " + key + " is not an officially supported argument name.  Use of alternative argument names is strongly discouraged.")
         if type(kwargs[key]) is not list:#Make sure single optional args are wrapped in a list
             kwargs[key] = [kwargs[key]]
         new_entry[key] = kwargs[key]
-    if unique_id in _citations:#Check for duplicate entries(e.g. from calling the same function twice)
-        _citations[unique_id] = compare_same_id(_citations[unique_id], new_entry)
+    if unique_id in citations_dict:#Check for duplicate entries(e.g. from calling the same function twice)
+        citations_dict[unique_id] = compare_same_id(citations_dict[unique_id], new_entry)
     else:
-        _citations[unique_id] = new_entry
+        citations_dict[unique_id] = new_entry
+    if write_immediately == True:
+        compile_cite_software_log()
+       
+def compile_cite_software_log(file_path="./", empty_checkpoints=True):
+    with open(file_path + checkpoint_log_filename, 'a') as file:
+        write_dict_to_output(file, citations_dict)
+    if empty_checkpoints==True:
+        citations_dict.clear()
 
-def compile_cite_software_log(file_path="./"):
-    with open(file_path + _OUTPUT_FILE_NAME, 'a') as file:
-        write_dict_to_output(file, _citations)
-
-def consolidate_software_log(file_path="./"):
+def consolidate_software_log(file_path=""):
     consolidated_dict = {}
-    with open(file_path + _CONSOLIDATED_FILE_NAME) as file:
-        file_contents = yaml.safe_load_all(file)
-        for yaml_file in file_contents:
-            for item in yaml_file:
-                id = item["unique_id"]
+    if consolidated_log_filename in os.listdir():
+        consolidated_log_exists = True
+    else:
+        consolidated_log_exists = False
+    if consolidated_log_exists == True:
+        with open(file_path + consolidated_log_filename, "r") as file:
+            yaml_file_contents = yaml.safe_load_all(file)
+            for yaml_document in yaml_file_contents:
+                for citation_entry in yaml_document:
+                    id = citation_entry["unique_id"]
+                    if id in consolidated_dict:
+                        consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
+                    else:
+                        consolidated_dict[id] = citation_entry
+    with open(checkpoint_log_filename, 'r') as file:
+        yaml_file_contents = yaml.safe_load_all(file)
+        for yaml_document in yaml_file_contents:
+            for citation_entry in yaml_document:
+                id = citation_entry["unique_id"]
                 if id in consolidated_dict:
-                    consolidated_dict[id] = compare_same_id(consolidated_dict[id], item)
+                    consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
                 else:
-                    consolidated_dict[id] = item
-    with open(_OUTPUT_FILE_NAME) as file:
-        file_contents = yaml.safe_load_all(file)
-        for yaml_file in file_contents:
-            for item in yaml_file:
-                id = item["unique_id"]
-                if id in consolidated_dict:
-                    consolidated_dict[id] = compare_same_id(consolidated_dict[id], item)
-                else:
-                    consolidated_dict[id] = item
-    with open(_CONSOLIDATED_FILE_NAME, 'w') as file:
+                    consolidated_dict[id] = citation_entry
+    with open(consolidated_log_filename, 'w') as file:
         write_dict_to_output(file, consolidated_dict)
 
 #Takes a dictionary, converts it to CiteSoft-compatible YAML, and writes it to file
 def write_dict_to_output(file, dictionary):
-    file.write('---\r\n')
+    file.write('---\n')
     for key,dict in dictionary.items():
-        file.write('-\r\n')
-        for s in _REQ_ARGS:
-            file.write('    ' + s + ': >-\r\n')
-            file.write('    '*2 + dict[s] + '\r\n')
+        file.write('-\n')
+        for s in valid_required_args:
+            file.write('    ' + s + ': >-\n')
+            file.write('    '*2 + dict[s] + '\n')
         for subkey in dict:
-            if subkey not in _REQ_ARGS:
-                file.write('    ' + subkey + ':\r\n')
+            if subkey not in valid_required_args:
+                file.write('    ' + subkey + ':\n')
                 if type(dict[subkey]) is list:
                     for i in dict[subkey]:
-                        file.write('    '*2 + '- >-\r\n')
-                        file.write('    '*3 + i + '\r\n')
+                        file.write('    '*2 + '- >-\n')
+                        file.write('    '*3 + i + '\n')
                 else:
-                    file.write('    '*2 + '- >-\r\n')
-                    file.write('    '*3 + dict[subkey] + '\r\n')
+                    file.write('    '*2 + '- >-\n')
+                    file.write('    '*3 + dict[subkey] + '\n')
 
 #Helper Functions
 
@@ -129,8 +144,8 @@ def compare_same_id(old_entry, new_entry):
             new_sv = semantic_version.Version(new_ver_str)
         except:
             new_ver_semver_valid = False
-        if old_ver_semver_valid and new_ver_semver_valid:#If both entries have a valid SemVer version, keep the newer one
-            if old_sv >= new_sv:
+        if old_ver_semver_valid and new_ver_semver_valid:#If both entries have a valid SemVer version, keep the older one only if it's greater. Else, keep the newer one.
+            if old_sv > new_sv:
                 return old_entry
             else:
                 return new_entry
