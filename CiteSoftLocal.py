@@ -48,16 +48,16 @@ def add_citation(unique_id, software_name, write_immediately=False, **kwargs):
     else:
         citations_dict[unique_id] = new_entry
     if write_immediately == True:
-        compile_cite_software_log()
+        compile_checkpoints_log()
        
-def compile_cite_software_log(file_path="./", empty_checkpoints=True):
+def compile_checkpoints_log(file_path="./", empty_checkpoints=True):
     with open(file_path + checkpoint_log_filename, 'a') as file:
         write_dict_to_output(file, citations_dict)
     if empty_checkpoints==True:
         citations_dict.clear()
 
-def consolidate_software_log(file_path=""):
-    print("Warning: CiteSoftLocal cannot make a consolidated log. CiteSoftwareCheckpointsLog will need to be checked.")
+def compile_consolidated_log(file_path=""):
+    print("Warning: CiteSoftLocal cannot make a consolidated log. Citations have been exported to CiteSoftwareCheckpointsLog.txt")
     # consolidated_dict = {}
     # if consolidated_log_filename in os.listdir(): #check if the file exists already.
         # consolidated_log_exists = True
@@ -123,45 +123,45 @@ def get_timestamp():
 #Returns : The entry which should be kept
 def compare_same_id(old_entry, new_entry):
     return new_entry #CiteSoftLocal will not do comparisons. It will just return the new_entry.
-    old_has_version = "version" in old_entry
-    new_has_version = "version" in new_entry
-    if old_has_version and new_has_version:#If both entries have a version, compare them return and the return the greater(newer) version
-        old_ver_str = str(old_entry["version"][0])
-        new_ver_str = str(new_entry["version"][0])
-        #Initialize variables, assume strings are valid unless parsing fails
-        old_ver_semver_valid = True
-        new_ver_semver_valid = True
-        decimal_regex_str = "^[0-9]+\.[0-9]+$"#Match string with decimal point enclosed by at least one number on either side
-        if re.match(decimal_regex_str, old_ver_str):
-            old_ver_str += '.0'#To ensure semantic version parser handles a decimal value correctly
-        if re.match(decimal_regex_str, new_ver_str):
-            new_ver_str += '.0'#To ensure semantic version parser handles a decimal value correctly
-        try:
-            old_sv = semantic_version.Version(old_ver_str)
-        except ValueError:
-            old_ver_semver_valid = False
-        try:
-            new_sv = semantic_version.Version(new_ver_str)
-        except:
-            new_ver_semver_valid = False
-        if old_ver_semver_valid and new_ver_semver_valid:#If both entries have a valid SemVer version, keep the older one only if it's greater. Else, keep the newer one.
-            if old_sv > new_sv:
-                return old_entry
-            else:
-                return new_entry
-        elif old_ver_semver_valid:#If only the old entry has a valid SemVer version, keep it
-            return old_entry
-        elif new_ver_semver_valid:#If only the new entry has a valid SemVer version, keep it
-            return new_entry
-        else:
-            #Version comparison failed, use alphanumeric comparison
-            if old_ver_str > new_ver_str:
-                return old_entry
-            else:
-                return new_entry
-    elif old_has_version and not new_has_version:#If old entry has a version and the new entry doesn't, the entry with a version takes precedence
-        return old_entry
-    elif not old_has_version and new_has_version:#Likewise, if new entry has a version and the old entry doesn't, the entry with a version takes precedence
-        return new_entry
-    else:#If neither entry has a version, save the new entry
-        return new_entry
+    # old_has_version = "version" in old_entry
+    # new_has_version = "version" in new_entry
+    # if old_has_version and new_has_version:#If both entries have a version, compare them return and the return the greater(newer) version
+        # old_ver_str = str(old_entry["version"][0])
+        # new_ver_str = str(new_entry["version"][0])
+        # #Initialize variables, assume strings are valid unless parsing fails
+        # old_ver_semver_valid = True
+        # new_ver_semver_valid = True
+        # decimal_regex_str = "^[0-9]+\.[0-9]+$"#Match string with decimal point enclosed by at least one number on either side
+        # if re.match(decimal_regex_str, old_ver_str):
+            # old_ver_str += '.0'#To ensure semantic version parser handles a decimal value correctly
+        # if re.match(decimal_regex_str, new_ver_str):
+            # new_ver_str += '.0'#To ensure semantic version parser handles a decimal value correctly
+        # try:
+            # old_sv = semantic_version.Version(old_ver_str)
+        # except ValueError:
+            # old_ver_semver_valid = False
+        # try:
+            # new_sv = semantic_version.Version(new_ver_str)
+        # except:
+            # new_ver_semver_valid = False
+        # if old_ver_semver_valid and new_ver_semver_valid:#If both entries have a valid SemVer version, keep the older one only if it's greater. Else, keep the newer one.
+            # if old_sv > new_sv:
+                # return old_entry
+            # else:
+                # return new_entry
+        # elif old_ver_semver_valid:#If only the old entry has a valid SemVer version, keep it
+            # return old_entry
+        # elif new_ver_semver_valid:#If only the new entry has a valid SemVer version, keep it
+            # return new_entry
+        # else:
+            # #Version comparison failed, use alphanumeric comparison
+            # if old_ver_str > new_ver_str:
+                # return old_entry
+            # else:
+                # return new_entry
+    # elif old_has_version and not new_has_version:#If old entry has a version and the new entry doesn't, the entry with a version takes precedence
+        # return old_entry
+    # elif not old_has_version and new_has_version:#Likewise, if new entry has a version and the old entry doesn't, the entry with a version takes precedence
+        # return new_entry
+    # else:#If neither entry has a version, save the new entry
+        # return new_entry

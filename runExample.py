@@ -20,5 +20,6 @@ def main():
     #We will do so below -- though this could of course be done by a wrapper within the dev-user's module.
     import CiteSoft
     CiteSoft.compile_consolidated_log()
+    
 if __name__ == '__main__':
     main()

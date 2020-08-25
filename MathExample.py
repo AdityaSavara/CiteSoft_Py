@@ -1,7 +1,12 @@
 import sys
 import math
-import CiteSoft
-from CiteSoft import module_call_cite
+try:
+    import CiteSoft
+    from CiteSoft import module_call_cite
+except:
+    import CiteSoftLocal as CiteSoft
+    from CiteSoftLocal import module_call_cite
+
 
 #This is a function example for module called "MathExample"
 #Note that the unique_id should be something truly unique (no other software would use it).
