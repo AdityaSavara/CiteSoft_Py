@@ -1,6 +1,4 @@
-Requires semantic-version library
-  -"pip install semantic_version"
-  -"https://pypi.org/project/semantic-version/"
+Can be installed by 'pip citesoft' which will also install semantic-version ( https://pypi.org/project/semantic-version/ and also PyYAML https://pypi.org/project/PyYAML/)
 
 For the simplest way to learn how to use CiteSoft, open runExample.py then run it.  Then open the two CiteSoft txt files generated (CiteSoftwareCheckpointsLog.txt and CiteSoftwareConsolidatedLog.txt), and also MathExample.py to see what happened.
 
@@ -20,7 +18,7 @@ CiteSoft.import_cite(unique_id=MathExample_unique_id, software_name="MathLib Exa
 FOR END-USERS:
 The end-user may find the CiteSoftwareConsolidatedLog.txt to be convenient, but the authoritative list is the list inside CiteSoftwareCheckpoints.txt (though the checkpoint file may include duplicates). The end-user is responsible for citing ALL software used. To facilitate easy of doing so, the dev-user should call the consolidate command when appropriate (such as at the end of a simulation).
 
-A typical CiteSoft entry looks like below:
+A typical CiteSoft entry looks like below (between the 'pre' tags):
 <pre>
 -
     timestamp: >-

@@ -25,7 +25,7 @@ LICENSE = 'BSD-3-Clause'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    'semantic_version',
+    'semantic_version', 'PyYAML'
     # 'requests', 'maya', 'records', #numpy...
 ]
 
