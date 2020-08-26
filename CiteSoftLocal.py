@@ -33,25 +33,31 @@ def module_call_cite(unique_id, software_name, write_immediately=False, **add_ar
     return inner
 
 #The after_call_compile_checkpoints_log function is intended to be used as a decorator.
-#It is similar to the example "a_decorator_passing_arbitrary_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
-#To find the example, search for "a_decorator_passing_arbitrary_arguments" at the above link.
+#It is similar to the example "decorator_maker_with_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
+#To find the example, search for "decorator_maker_with_arguments" at the above link.
+#function "inner" below is named 'decorator' in the above link and 'wrapper' below is named 'wrapper' in the above link.
 def after_call_compile_checkpoints_log(file_path="", empty_checkpoints=True):
-    def wrapper(*args, **kwargs):
-        result = func(*args, **kwargs)
-        compile_checkpoints_log(file_path=file_path, empty_checkpoints=empty_checkpoints)
-        return result
-    return wrapper
+    def inner(func):
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            compile_checkpoints_log(file_path=file_path, empty_checkpoints=empty_checkpoints)
+            return result
+        return wrapper
+    return inner
 
 #The after_call_compile_consolidated_log function is intended to be used as a decorator.
-#It is similar to the example "a_decorator_passing_arbitrary_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
-#To find the example, search for "a_decorator_passing_arbitrary_arguments" at the above link.
+#It is similar to the example "decorator_maker_with_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
+#To find the example, search for "decorator_maker_with_arguments" at the above link.
+#function "inner" below is named 'decorator' in the above link and 'wrapper' below is named 'wrapper' in the above link.
 def after_call_compile_consolidated_log(file_path="", compile_checkpoints=True):
-    def wrapper(*args, **kwargs):
-        result = func(*args, **kwargs)
-        compile_consolidated_log(file_path=file_path, compile_checkpoints=compile_checkpoints)
-        return result
-    return wrapper
-
+    def inner(func):
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            compile_consolidated_log(file_path=file_path, compile_checkpoints=compile_checkpoints)
+            return result
+        return wrapper
+    return inner
+    
 #The import_cite function is intended to be used at the top of a sofware module.
 def import_cite(unique_id, software_name, write_immediately=False, **kwargs):
     add_citation(unique_id, software_name, write_immediately, **kwargs)

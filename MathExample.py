@@ -3,6 +3,9 @@ import math
 try:
     import CiteSoft
     from CiteSoft import module_call_cite
+    from CiteSoft import module_call_cite
+    from CiteSoft import after_call_compile_checkpoints_log
+    from CiteSoft import after_call_compile_consolidated_log
 except:
     import os #The below lines are to allow CiteSoftLocal to be called regardless of user's working directory.
     lenOfFileName = len(os.path.basename(__file__)) #This is the name of **this** file.
@@ -10,6 +13,8 @@ except:
     sys.path.append(absPathWithoutFileName)
     import CiteSoftLocal as CiteSoft
     from CiteSoftLocal import module_call_cite
+    from CiteSoftLocal import after_call_compile_checkpoints_log
+    from CiteSoftLocal import after_call_compile_consolidated_log
 
 
 #This is a function example for module called "MathExample"
@@ -79,6 +84,7 @@ def std_dev(list_of_num):
 #note that the above lines of code simply add to the file CiteSoftwareCheckPoints
 #if one wants to create a consolidated log that removes duplicates, one can call a CiteSoft function
 #This is considered appropriate to do at the end of a complicated program, but is not necessary.
+#it would have been possible to also use decorators on any of the above functions, like @after_call_compile_checkpoints_log or @after_call_compile_consolidated_log.  Note that chained/stacked decorators are performed in "first in last out" order, since they are wrappers on wrappers. So if a function has both @module_call_cite and @after_call_compile_consolidated_log, the @module_call_cite should be second.
 def export_citation_checkpoints(filepath=""):
     if filepath is not "":
         CiteSoft.compile_checkpoints_log(filepath)
