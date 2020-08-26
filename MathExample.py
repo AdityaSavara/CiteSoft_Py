@@ -4,6 +4,10 @@ try:
     import CiteSoft
     from CiteSoft import module_call_cite
 except:
+    import os #The below lines are to allow CiteSoftLocal to be called regardless of user's working directory.
+    lenOfFileName = len(os.path.basename(__file__)) #This is the name of **this** file.
+    absPathWithoutFileName = os.path.abspath(__file__)[0:-1*lenOfFileName]
+    sys.path.append(absPathWithoutFileName)
     import CiteSoftLocal as CiteSoft
     from CiteSoftLocal import module_call_cite
 
