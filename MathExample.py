@@ -40,6 +40,7 @@ def multiply(num1, num2):
 def divide(num1, num2):
     return num1 / num2
 
+@CiteSoft.after_call_compile_consolidated_log() #This will cause the consolidated log to be complied after the mean function is called. #note that we put it after the module_call_cite so that it is a wrapper around that wrapper and occurs second.
 @CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", **kwargs)
 def mean(list_of_num):
     result = 0
