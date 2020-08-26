@@ -15,7 +15,7 @@ from setuptools import find_packages, setup, Command
 
 # Package meta-data.
 NAME = 'CiteSoft'
-DESCRIPTION = 'CiteSoft is for .'
+DESCRIPTION = 'This is a python implementation of CiteSoft. CiteSoft is a plain text standard consisting of a format and a protocol that exports the citations for the  end-users for whichever softwares they have used. CiteSoft has been designed so that software dev-users can rely upon it regardless of coding language or platform, and even for cases where multiple codes are working in a coupled manner..'
 URL = 'https://github.com/AdityaSavara/CiteSoft_py'
 EMAIL = 'AditySavara2008@u.northwestern.edu'  
 AUTHOR = 'Aditya Savara'
