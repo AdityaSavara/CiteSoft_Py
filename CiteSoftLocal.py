@@ -16,6 +16,15 @@ validate_on_fly = True#Flag.  If set to true, argument names will be checked in 
 valid_optional_fields = ["version", "cite", "author", "doi", "url", "encoding", "misc"]
 valid_required_fields = ['timestamp', 'unique_id', 'software_name']
 
+#TODO: Make a global (in the module) for the absolute path to the log.  That way other modules can change the file_path through CiteSoft.set_log_abs_path(...) or by CiteSoft.log_abs_path = ...
+#cwd = os...path....
+#log_abs_path = cwd
+# def set_log_abs_path(abs_path)
+    # global log_abs_path
+    # log_abs_path = abs_path
+
+########## START SECTION OF CODE WHICH HAS FUNCTIONS THAT ARE TO BE USED AS DECORATORS ################
+
 #The module_call_cite function is intended to be used as a decorator.
 #It is similar to the example "decorator_maker_with_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
 #To find the example, search for "decorator_maker_with_arguments" at the above link.
@@ -57,6 +66,8 @@ def after_call_compile_consolidated_log(file_path="", compile_checkpoints=True):
             return result
         return wrapper
     return inner
+
+########## END SECTION OF CODE WHICH HAS FUNCTIONS THAT ARE TO BE USED AS DECORATORS ################
     
 #The import_cite function is intended to be used at the top of a sofware module.
 def import_cite(unique_id, software_name, write_immediately=False, **kwargs):
