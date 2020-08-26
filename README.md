@@ -15,6 +15,8 @@ CiteSoft.import_cite(unique_id=MathExample_unique_id, software_name="MathLib Exa
 2) A "module_call_cite" which causes a citation to be made when a function in the module is actually called.
 @module_call_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", **kwargs)
 
+Subsequently, one would use compile_checkpoints_log & compile_consolidated_log (direct CiteSoft module functions), or after_call_compile_checkpoints_log & after_call_compile_consolidated_log (CiteSoft decorators) to create CiteSoftwareCheckpointsLog.txt and CiteSoftwareConsolidatedLog.txt.
+
 CiteSoftLocal is NOT a full version of CiteSoft: it is file that only exports Checkpoints and which dev-users can include for distribution with their packages as a 'backup' in case an end-user tries to run the dev-user's package under conditions where CiteSoft or its dependencies are not installed.
 
 FOR END-USERS:
