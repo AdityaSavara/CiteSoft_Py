@@ -91,6 +91,7 @@ def compile_consolidated_log(file_path="", compile_checkpoints=True):
                         else:
                             consolidated_dict[id] = citation_entry
     with open(consolidated_log_filename, 'w') as file:
+        file.write('#Warning: CiteSoftwareConsolidatedLog.txt may not include all softwares used. It is the end-user’s responsibility to check that the no softwares are missing which were mentioned in the CiteSoftwareCheckpointsLog.txt logfile – particularly when using two or more codes together for the first time.\n')
         write_dict_to_output(file, consolidated_dict)
 
 #Takes a dictionary, converts it to CiteSoft-compatible YAML, and writes it to file
