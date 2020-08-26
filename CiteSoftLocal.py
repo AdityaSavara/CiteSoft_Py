@@ -29,7 +29,7 @@ def module_call_cite(unique_id, software_name, write_immediately=False, **add_ar
             add_citation(unique_id, software_name, write_immediately, **add_args)
             result = func(*args, **kwargs)
             return result
-        return call
+        return wrapper
     return inner
 
 #The after_call_compile_checkpoints_log function is intended to be used as a decorator.
