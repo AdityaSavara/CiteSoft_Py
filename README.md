@@ -2,7 +2,7 @@ Can be installed by 'pip citesoft' which will also install semantic-version ( ht
 
 For the simplest way to learn how to use CiteSoft, open runExample.py then run it.  Then open the two CiteSoft txt files generated (CiteSoftwareCheckpointsLog.txt and CiteSoftwareConsolidatedLog.txt), and also MathExample.py to see what happened.
 
-Basically, when runExample.py is run, citations are generated in a "Checkpoint" file for the module and for the functions inside MathExample.py. Finally, the citations are consolidated with duplicate entries removed.
+Basically, when runExample.py is run, citations are generated in a "Checkpoint" file (based on the module that was called and the functions that were called inside MathExample.py). Finally, the citations are consolidated with duplicate entries removed.
 
 There are two types of users of citesoft: dev-users and end-users.
 
