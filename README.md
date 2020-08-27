@@ -14,10 +14,15 @@ There are are two syntaxes to include citations to their work. The only truly re
 1) An "import_cite" which causes a citation to be made when the the module is first imported.
 CiteSoft.import_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", write_immediately=True, **kwargs)
 
-2) A "module_call_cite" which causes a citation to be made when a function in the module is actually called.
+2) A "module_call_cite" which causes a citation to be made when a function in the module is actually called. 
 @CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", **kwargs)
 
 Subsequently, one would use compile_checkpoints_log & compile_consolidated_log (direct CiteSoft module functions), or @CiteSoft.after_call_compile_checkpoints_log & @CiteSoft.after_call_compile_consolidated_log (CiteSoft decorators) to create CiteSoftwareCheckpointsLog.txt and CiteSoftwareConsolidatedLog.txt.
+
+For class-based codes, a logical choice is to use a pair of calls like this before a class's init function:
+@CiteSoft.after_call_compile_consolidated_log()
+@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", **kwargs)
+def __init__(...)
 
 CiteSoftLocal is NOT a full version of CiteSoft: it is file that only exports Checkpoints and which dev-users can include for distribution with their packages as a 'backup' in case an end-user tries to run the dev-user's package under conditions where CiteSoft or its dependencies are not installed.
 
