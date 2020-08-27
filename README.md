@@ -1,3 +1,5 @@
+CiteSoft_py is a python implementation of CiteSoft. CiteSoft is a plain text standard consisting of a format and a protocol that exports the citations for the  end-users for whichever softwares they have used. CiteSoft has been designed so that software dev-users can rely upon it regardless of coding language or platform, and even for cases where multiple codes are working in a coupled manner.
+
 Can be installed by 'pip citesoft' which will also install semantic-version ( https://pypi.org/project/semantic-version/ and also PyYAML https://pypi.org/project/PyYAML/)
 
 For the simplest way to learn how to use CiteSoft, open runExample.py then run it.  Then open the two CiteSoft txt files generated (CiteSoftwareCheckpointsLog.txt and CiteSoftwareConsolidatedLog.txt), and also MathExample.py to see what happened.
