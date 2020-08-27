@@ -74,6 +74,11 @@ def sample_variance(list_of_num):
 def std_dev(list_of_num):
     return sqrt(sample_variance(list_of_num))
 
+@CiteSoft.after_call_compile_consolidated_log() #This will cause the consolidated log to be complied after the mean function is called. #note that we put it after the module_call_cite so that it is a wrapper around that wrapper and occurs second.
+@CiteSoft.module_call_cite(MathExample_unique_id, software_name, **kwargs)
+def cite_me(): #This is just an example of how a package creating dev-user could make a function that other dev-users relying on their package could call at the very end of doing everything, so that no calls to CiteSoft would need to occur during runtime.
+    pass
+
 #note that the above lines of code simply add to the file CiteSoftwareCheckPoints
 #if one wants to create a consolidated log that removes duplicates, one can call a CiteSoft function
 #This is considered appropriate to do at the end of a complicated program, but is not necessary.
