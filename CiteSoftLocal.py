@@ -1,4 +1,4 @@
-from __future__ import print_function
+#from __future__ import print_function
 from datetime import datetime
 #import yaml  #assume these are not available.
 #import semantic_version #assume these are not available.
@@ -58,7 +58,7 @@ def after_call_compile_checkpoints_log(file_path="", empty_checkpoints=True):
 #It is similar to the example "decorator_maker_with_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
 #To find the example, search for "decorator_maker_with_arguments" at the above link.
 #function "inner" below is named 'decorator' in the above link and 'wrapper' below is named 'wrapper' in the above link.
-def after_call_compile_consolidated_log(file_path="", compile_checkpoints=True):
+def after_call_compile_consolidated_log(file_path="", compile_checkpoints=False):
     def inner(func):
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
@@ -96,10 +96,12 @@ def compile_checkpoints_log(file_path="", empty_checkpoints=True):
     if empty_checkpoints==True:
         citations_dict.clear()
 
-def compile_consolidated_log(file_path="", compile_checkpoints=True):
-    if compile_checkpoints == True:
-        compile_checkpoints_log()
+def compile_consolidated_log(file_path="", compile_checkpoints=False):
+    #CiteSoftLocal will use compile checkpoints since it cannot consolidate.
+    compile_checkpoints_log()
     print("Warning: CiteSoftLocal cannot make a consolidated log. Citations have been exported to CiteSoftwareCheckpointsLog.txt")
+    # if compile_checkpoints == True:
+        # compile_checkpoints_log()
     # consolidated_dict = {}
     # if consolidated_log_filename in os.listdir(): #check if the file exists already.
         # consolidated_log_exists = True
