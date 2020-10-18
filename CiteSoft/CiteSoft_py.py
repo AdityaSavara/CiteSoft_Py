@@ -58,7 +58,7 @@ def after_call_compile_checkpoints_log(file_path="", empty_checkpoints=True):
 #It is similar to the example "decorator_maker_with_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
 #To find the example, search for "decorator_maker_with_arguments" at the above link.
 #function "inner" below is named 'decorator' in the above link and 'wrapper' below is named 'wrapper' in the above link.
-def after_call_compile_consolidated_log(file_path="", compile_checkpoints=True):
+def after_call_compile_consolidated_log(file_path="", compile_checkpoints=False):
     def inner(func):
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
@@ -96,10 +96,30 @@ def compile_checkpoints_log(file_path="", empty_checkpoints=True):
     if empty_checkpoints==True:
         citations_dict.clear()
 
-def compile_consolidated_log(file_path="", compile_checkpoints=True):
+def compile_consolidated_log(file_path="", compile_checkpoints=False): 
+    #compile_checkpoints =True must be used sparingly. Otherwise it can slow down performance when the checkpoints file gets large.
+    import copy
+    consolidated_dict = copy.deepcopy(citations_dict) #Make a copy of citations_dict before emptying it.
     if compile_checkpoints == True:
         compile_checkpoints_log()
-    consolidated_dict = {}
+        
+    #Grab the citations from the checkpoint log.        
+    if checkpoint_log_filename in os.listdir(): #check if the file exists already.
+        checkpoint_log_exists = True
+    else:
+        checkpoint_log_exists = False
+    if checkpoint_log_exists == True: #can only read file if it exists.
+        with open(checkpoint_log_filename, 'r') as file:
+            yaml_file_contents = yaml.safe_load_all(file)
+            for yaml_document in yaml_file_contents:
+                if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
+                    for citation_entry in yaml_document:
+                        id = citation_entry["unique_id"]
+                        if id in consolidated_dict:
+                            consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
+                        else:
+                            consolidated_dict[id] = citation_entry        
+    #Grab the citations from the consolidated log.    
     if consolidated_log_filename in os.listdir(): #check if the file exists already.
         consolidated_log_exists = True
     else:
@@ -115,21 +135,7 @@ def compile_consolidated_log(file_path="", compile_checkpoints=True):
                             consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
                         else:
                             consolidated_dict[id] = citation_entry
-    if checkpoint_log_filename in os.listdir(): #check if the file exists already.
-        checkpoint_log_exists = True
-    else:
-        checkpoint_log_exists = False
-    if checkpoint_log_exists == True: #can only read file if it exists.
-        with open(checkpoint_log_filename, 'r') as file:
-            yaml_file_contents = yaml.safe_load_all(file)
-            for yaml_document in yaml_file_contents:
-                if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
-                    for citation_entry in yaml_document:
-                        id = citation_entry["unique_id"]
-                        if id in consolidated_dict:
-                            consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
-                        else:
-                            consolidated_dict[id] = citation_entry
+
     with open(consolidated_log_filename, 'w') as file:
         file.write('#Warning: CiteSoftwareConsolidatedLog.txt may not include all softwares used. It is the end-user’s responsibility to verify that the no software citations are missing relative to those recorded in the complete logfile, CiteSoftwareCheckpointsLog.txt . This verification is important to do when using two or more codes together for the first time.\n')
         write_dict_to_output(file, consolidated_dict)
