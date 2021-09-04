@@ -97,11 +97,11 @@ def create_cff(entry, file_path=""):
     valid_file_name = re.sub('[^\w_.)( -]', '_', entry['unique_id'])#remove chracters disallowed in filenames. Replace with "_"
     cff_filename = valid_file_name + ".cff"
     import os
-    if os.path.exists("./" + file_path + "/CiteSoftware/"):
+    if os.path.exists("./" + file_path + "/CITATIONS/"):
         pass
     else:
-       os.mkdir("./" + file_path + "/CiteSoftware/")
-    with open("./" + file_path + "/CiteSoftware/" + cff_filename, 'w') as file:
+       os.mkdir("./" + file_path + "/CITATIONS/")
+    with open("./" + file_path + "/CITATIONS/" + cff_filename, 'w') as file:
         write_dict_to_output(file, citation_in_dict)
     
 def compile_checkpoints_log(file_path="", empty_checkpoints=True):
