@@ -1,0 +1,33 @@
+#Warning: CiteSoftwareConsolidatedLog.txt may not include all softwares used. It is the end-user’s responsibility to verify that the no software citations are missing relative to those recorded in the complete logfile, CiteSoftwareCheckpointsLog.txt . This verification is important to do when using two or more codes together for the first time.
+---
+-
+    timestamp: >-
+        2021-09-04T19:33:58
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+-
+    timestamp: >-
+        2021-09-04T19:34:00
+    unique_id: >-
+        https://docs.python.org/3/library/math.html
+    software_name: >-
+        The Python Library Reference: Mathematical functions
+    version:
+        - >-
+            3.6.3 
+    author:
+        - >-
+            Van Rossum, Guido
+    cite:
+        - >-
+            Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.

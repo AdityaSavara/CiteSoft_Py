@@ -119,10 +119,7 @@ def write_dict_to_cff(file, citation_dict):
     other_cff_valid_fields = ["version", "doi", "url", "license"]
     for field in other_cff_valid_fields:
         if field in citation_dict:
-            if field == 'version': 
-                file.write(field + ": " + str(citation_dict[field][0]) + '\n') #FIXME: currently CiteSoft makes all optional fields into a list, including the version number. So we are taking the first item in the list. However, the optional fields in CiteSoft should be changed to be compatible in structure with CFF.
-            else:
-                file.write(field + ": " + str(citation_dict[field]) + '\n')
+            file.write(field + ": " + str(citation_dict[field][0]) + '\n') #Consider changing: currently CiteSoft makes all optional fields into a list, including the version number. So we are taking the first item in the list. 
 
 #Normally, checkpoints are stored in a dictionary until they are exported.  
 #The exporting happens either when requested to from add_citation or from compile_consolidated_log.

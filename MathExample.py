@@ -18,25 +18,25 @@ except:
 software_name = "CiteSoft Math Example"
 version = "1.0.0"
 MathExample_unique_id = "https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py"
-kwargs = {"version": version, "author": ["Aditya Savara", "CPH"]} 
+kwargs = {"version": version, "author": ["Aditya Savara", "CPH"], "url": "https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py"} 
 
 #The below line will cause this module's citation to be exported any time the module is imported. 
 #The 'write_immediately = True' causes the checkpoint to be written at the time of export rather than stored.
 CiteSoft.import_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", write_immediately=True, **kwargs)
 
-@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", **kwargs)
+@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
 def add(num1, num2):
     return num1 + num2
 
-@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", **kwargs)
+@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
 def subtract(num1, num2):
     return num1 - num2
 
-@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", **kwargs)
+@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
 def multiply(num1, num2):
     return num1 * num2
 
-@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", **kwargs)
+@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
 def divide(num1, num2):
     return num1 / num2
 
@@ -52,7 +52,7 @@ def mean(list_of_num):
 math_unique_id = "https://docs.python.org/3/library/math.html"
 math_software_name = "The Python Library Reference: Mathematical functions"
 math_version = str(sys.version).split("|")[0] #This is the python version.
-math_kwargs = {"version": math_version, "author": "Van Rossum, Guido", "cite": "Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation."}
+math_kwargs = {"version": math_version, "author": "Van Rossum, Guido", "cite": "Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.", "url": "https://docs.python.org/3/library/math.html"}
 @CiteSoft.module_call_cite(unique_id=math_unique_id, software_name=math_software_name, **math_kwargs)
 def sqrt(num):
     return math.sqrt(num)
