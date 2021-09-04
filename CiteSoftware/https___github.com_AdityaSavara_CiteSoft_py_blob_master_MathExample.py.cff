@@ -1,7 +1,7 @@
 ---
 -
     timestamp: >-
-        2021-09-04T00:26:10
+        2021-09-04T00:38:34
     unique_id: >-
         https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
     software_name: >-
@@ -17,7 +17,23 @@
 ---
 -
     timestamp: >-
-        2021-09-04T00:33:19
+        2021-09-04T00:38:34
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:38:36
     unique_id: >-
         https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
     software_name: >-

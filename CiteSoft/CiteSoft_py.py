@@ -107,6 +107,8 @@ def create_cff(entry, file_path=""):
 def compile_checkpoints_log(file_path="", empty_checkpoints=True):
     with open(file_path + checkpoint_log_filename, 'a') as file:
         write_dict_to_output(file, citations_dict)
+    for dict_key in citations_dict:
+        create_cff(citations_dict[dict_key])
     if empty_checkpoints==True:
         citations_dict.clear()
 

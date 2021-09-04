@@ -1,0 +1,17 @@
+---
+-
+    timestamp: >-
+        2021-09-04T00:38:36
+    unique_id: >-
+        https://docs.python.org/3/library/math.html
+    software_name: >-
+        The Python Library Reference: Mathematical functions
+    version:
+        - >-
+            3.6.3 
+    author:
+        - >-
+            Van Rossum, Guido
+    cite:
+        - >-
+            Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.
