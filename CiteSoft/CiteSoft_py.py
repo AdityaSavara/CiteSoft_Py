@@ -101,7 +101,7 @@ def create_cff(entry, file_path=""):
         pass
     else:
        os.mkdir("./" + file_path + "/CiteSoftware/")
-    with open("./" + file_path + "/CiteSoftware/" + cff_filename, 'a') as file:
+    with open("./" + file_path + "/CiteSoftware/" + cff_filename, 'w') as file:
         write_dict_to_output(file, citation_in_dict)
     
 def compile_checkpoints_log(file_path="", empty_checkpoints=True):
