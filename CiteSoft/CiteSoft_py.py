@@ -93,7 +93,6 @@ def add_citation(unique_id, software_name, write_immediately=False, **kwargs):
 #This function creates cff files for each entry based. Th CFF files name is the unique_id converted to a valid file name.
 def create_cff(entry, file_path=""):
     import re
-    citation_in_dict = {entry['unique_id']:entry}
     valid_file_name = re.sub('[^\w_.)( -]', '_', entry['unique_id'])#remove chracters disallowed in filenames. Replace with "_"
     cff_filename = valid_file_name + ".cff"
     import os
@@ -102,7 +101,28 @@ def create_cff(entry, file_path=""):
     else:
        os.mkdir("./" + file_path + "/CITATIONS/")
     with open("./" + file_path + "/CITATIONS/" + cff_filename, 'w') as file:
-        write_dict_to_output(file, citation_in_dict)
+        write_dict_to_cff(file, entry)
+
+#As of August 4th 2021, we will just make minimal CFF files with the minimal required fields:
+# https://github.com/citation-file-format/citation-file-format/blob/main/examples/1.2.0/pass/minimal/CITATION.cff
+def write_dict_to_cff(file, citation_dict):
+    file.write('cff-version: 1.2.0\n')
+    file.write('message:' + citation_dict['timestamp'] + '\n')
+    file.write('title: ' + citation_dict['software_name'] + '\n')
+    file.write('identifiers: \n')
+    file.write(' - type: unique_id' + '\n')
+    file.write('   value: '+ citation_dict['unique_id'] + '\n')
+    if 'author' in citation_dict: #TODO: change this to have family-names and given-names. Also add orcid.
+        file.write('authors: \n') 
+        for authorName in citation_dict['author']:
+            file.write(' - name: ' + authorName + '\n')
+    other_cff_valid_fields = ["version", "doi", "url", "license"]
+    for field in other_cff_valid_fields:
+        if field in citation_dict:
+            if field == 'version': 
+                file.write(field + ": " + str(citation_dict[field][0]) + '\n') #FIXME: currently CiteSoft makes all optional fields into a list, including the version number. So we are taking the first item in the list. However, the optional fields in CiteSoft should be changed to be compatible in structure with CFF.
+            else:
+                file.write(field + ": " + str(citation_dict[field]) + '\n')
 
 #Normally, checkpoints are stored in a dictionary until they are exported.  
 #The exporting happens either when requested to from add_citation or from compile_consolidated_log.

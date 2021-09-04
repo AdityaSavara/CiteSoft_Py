@@ -15,7 +15,7 @@ except:
 #The author field is typically a list object with names as strings, but can also just be a single string.
 #Note that there is a function called sqrt which uses the python math module, and uses a *different* citation.
 
-software_name = "MathLib Example"
+software_name = "CiteSoft Math Example"
 version = "1.0.0"
 MathExample_unique_id = "https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py"
 kwargs = {"version": version, "author": ["Aditya Savara", "CPH"]} 
