@@ -1,0 +1,432 @@
+---
+-
+    timestamp: >-
+        2021-09-04T00:03:10
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:03:25
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:03:40
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:20:10
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:20:22
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:20:34
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:20:36
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+-
+    timestamp: >-
+        2021-09-04T00:20:36
+    unique_id: >-
+        https://docs.python.org/3/library/math.html
+    software_name: >-
+        The Python Library Reference: Mathematical functions
+    version:
+        - >-
+            3.6.3 
+    author:
+        - >-
+            Van Rossum, Guido
+    cite:
+        - >-
+            Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.
+---
+-
+    timestamp: >-
+        2021-09-04T00:22:06
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:22:08
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:22:08
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+-
+    timestamp: >-
+        2021-09-04T00:22:08
+    unique_id: >-
+        https://docs.python.org/3/library/math.html
+    software_name: >-
+        The Python Library Reference: Mathematical functions
+    version:
+        - >-
+            3.6.3 
+    author:
+        - >-
+            Van Rossum, Guido
+    cite:
+        - >-
+            Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.
+---
+-
+    timestamp: >-
+        2021-09-04T00:22:17
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:22:19
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:22:19
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+-
+    timestamp: >-
+        2021-09-04T00:22:19
+    unique_id: >-
+        https://docs.python.org/3/library/math.html
+    software_name: >-
+        The Python Library Reference: Mathematical functions
+    version:
+        - >-
+            3.6.3 
+    author:
+        - >-
+            Van Rossum, Guido
+    cite:
+        - >-
+            Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.
+---
+-
+    timestamp: >-
+        2021-09-04T00:22:56
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:25:06
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:25:08
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+-
+    timestamp: >-
+        2021-09-04T00:25:08
+    unique_id: >-
+        https://docs.python.org/3/library/math.html
+    software_name: >-
+        The Python Library Reference: Mathematical functions
+    version:
+        - >-
+            3.6.3 
+    author:
+        - >-
+            Van Rossum, Guido
+    cite:
+        - >-
+            Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.
+---
+-
+    timestamp: >-
+        2021-09-04T00:26:10
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:26:12
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+-
+    timestamp: >-
+        2021-09-04T00:26:12
+    unique_id: >-
+        https://docs.python.org/3/library/math.html
+    software_name: >-
+        The Python Library Reference: Mathematical functions
+    version:
+        - >-
+            3.6.3 
+    author:
+        - >-
+            Van Rossum, Guido
+    cite:
+        - >-
+            Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.
+---
+-
+    timestamp: >-
+        2021-09-04T00:32:48
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:33:19
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T00:33:21
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+-
+    timestamp: >-
+        2021-09-04T00:33:21
+    unique_id: >-
+        https://docs.python.org/3/library/math.html
+    software_name: >-
+        The Python Library Reference: Mathematical functions
+    version:
+        - >-
+            3.6.3 
+    author:
+        - >-
+            Van Rossum, Guido
+    cite:
+        - >-
+            Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.

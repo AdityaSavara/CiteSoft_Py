@@ -89,7 +89,21 @@ def add_citation(unique_id, software_name, write_immediately=False, **kwargs):
         citations_dict[unique_id] = new_entry
     if write_immediately == True:
         compile_checkpoints_log()
-       
+        create_cff(new_entry)
+        
+def create_cff(entry, file_path=""):
+    import re
+    citation_in_dict = {entry['unique_id']:entry}
+    valid_file_name = re.sub('[^\w_.)( -]', '_', entry['unique_id'])#remove chracters disallowed in filenames. Replace with "_"
+    cff_filename = valid_file_name + ".cff"
+    import os
+    if os.path.exists("./" + file_path + "/CiteSoftware/"):
+        pass
+    else:
+       os.mkdir("./" + file_path + "/CiteSoftware/")
+    with open("./" + file_path + "/CiteSoftware/" + cff_filename, 'a') as file:
+        write_dict_to_output(file, citation_in_dict)
+    
 def compile_checkpoints_log(file_path="", empty_checkpoints=True):
     with open(file_path + checkpoint_log_filename, 'a') as file:
         write_dict_to_output(file, citations_dict)
