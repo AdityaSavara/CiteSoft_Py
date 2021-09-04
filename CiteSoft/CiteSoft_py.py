@@ -89,8 +89,8 @@ def add_citation(unique_id, software_name, write_immediately=False, **kwargs):
         citations_dict[unique_id] = new_entry
     if write_immediately == True:
         compile_checkpoints_log()
-        create_cff(new_entry)
-        
+
+#This function creates cff files for each entry based. Th CFF files name is the unique_id converted to a valid file name.
 def create_cff(entry, file_path=""):
     import re
     citation_in_dict = {entry['unique_id']:entry}
@@ -103,7 +103,9 @@ def create_cff(entry, file_path=""):
        os.mkdir("./" + file_path + "/CITATIONS/")
     with open("./" + file_path + "/CITATIONS/" + cff_filename, 'w') as file:
         write_dict_to_output(file, citation_in_dict)
-    
+
+#Normally, checkpoints are stored in a dictionary until they are exported.  
+#The exporting happens either when requested to from add_citation or from compile_consolidated_log.
 def compile_checkpoints_log(file_path="", empty_checkpoints=True):
     with open(file_path + checkpoint_log_filename, 'a') as file:
         write_dict_to_output(file, citations_dict)
@@ -112,6 +114,7 @@ def compile_checkpoints_log(file_path="", empty_checkpoints=True):
     if empty_checkpoints==True:
         citations_dict.clear()
 
+#The consolidated log consolidates from up to a few places. It non-optionally takes the entries currently in memory (citations_dict), optionally adds in any written CheckpointsLog, and non-optionally reads any existing ConsolidatedLog.  From these sets, it excludes duplicates, makes a set of the remaining unique_ids, and then writes to the consolidated log.
 def compile_consolidated_log(file_path="", compile_checkpoints=False): 
     #compile_checkpoints =True must be used sparingly. Otherwise it can slow down performance when the checkpoints file gets large.
     import copy

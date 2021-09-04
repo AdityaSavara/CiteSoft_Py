@@ -670,3 +670,51 @@
     cite:
         - >-
             Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.
+---
+-
+    timestamp: >-
+        2021-09-04T10:56:42
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+---
+-
+    timestamp: >-
+        2021-09-04T10:56:44
+    unique_id: >-
+        https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+    software_name: >-
+        MathLib Example
+    version:
+        - >-
+            1.0.0
+    author:
+        - >-
+            Aditya Savara
+        - >-
+            CPH
+-
+    timestamp: >-
+        2021-09-04T10:56:44
+    unique_id: >-
+        https://docs.python.org/3/library/math.html
+    software_name: >-
+        The Python Library Reference: Mathematical functions
+    version:
+        - >-
+            3.6.3 
+    author:
+        - >-
+            Van Rossum, Guido
+    cite:
+        - >-
+            Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.

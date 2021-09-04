@@ -19,11 +19,11 @@
         CiteSoft_Module_Call_Cite
 -
     timestamp: >-
-        2021-09-04T00:35:09
+        2021-09-04T10:57:01
     unique_id: >-
         ver_test
     software_name: >-
         CiteSoft
     version:
         - >-
-            10.4.7
+            10.10
