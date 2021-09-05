@@ -2,7 +2,7 @@
 ---
 -
     timestamp: >-
-        2021-09-04T21:51:42
+        2021-09-05T11:40:24
     unique_id: >-
         https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
     software_name: >-
@@ -20,7 +20,7 @@
             https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
 -
     timestamp: >-
-        2021-09-04T21:51:44
+        2021-09-05T11:40:26
     unique_id: >-
         https://docs.python.org/3/library/math.html
     software_name: >-

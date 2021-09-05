@@ -108,7 +108,8 @@ def create_cff(entry, file_path=""):
     with open("./" + file_path + "/CITATIONS/" + cff_filename, 'w') as file:
         write_dict_to_cff(file, entry)
     #now write to the consolided CFF file (since we are appending, it will be created if it does not exist):
-    with open("./" + file_path + "/CITATIONS/" + consolidated_CFF_filename, 'w') as file:
+    with open("./" + file_path + "/CITATIONS/" + consolidated_CFF_filename, 'a') as file:
+        file.write('---\n')
         write_dict_to_cff(file, entry)
 
 #As of August 4th 2021, we will just make minimal CFF files with the minimal required fields:
