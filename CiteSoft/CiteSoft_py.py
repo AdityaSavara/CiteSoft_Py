@@ -101,11 +101,11 @@ def create_cff(entry, file_path=""):
     valid_file_name_string = re.sub('[^\w_.)( -]', '_', unique_id_string)#remove characters from unique_id_string that are disallowed in filenames strings. Replace with "_". #TODO: We should using an encoding rather than this simple replace, that way the unique_id conversion will be 1:1 and reversible. The reason I did not use an encoding (yet) is I wanted to make sure that the encoding used is easily replicated in all programming languages. It should not be python specific -- but maybe it would be okay if it is?
     cff_filename = valid_file_name_string + ".cff"
     import os
-    if os.path.exists("./" + file_path + "/CITATIONS/"):
+    if os.path.exists("./" + file_path + "/CITATIONS/IndividualCff/"):
         pass
     else:
-       os.mkdir("./" + file_path + "/CITATIONS/")
-    with open("./" + file_path + "/CITATIONS/" + cff_filename, 'w') as file:
+       os.mkdir("./" + file_path + "/CITATIONS/IndividualCff/")
+    with open("./" + file_path + "/CITATIONS/IndividualCff/" + cff_filename, 'w') as file:
         write_dict_to_cff(file, entry)
     #now write to the consolided CFF file (since we are appending, it will be created if it does not exist):
     with open("./" + file_path + "/CITATIONS/" + consolidated_CFF_filename, 'a') as file:
@@ -153,7 +153,6 @@ def update_unique_IDs_file(file_path=""):
             current_unique_id = citations_dict[dict_key]['unique_id']
             if current_unique_id not in written_unique_IDs:
                 file.write(current_unique_id + "\n")
-               
 
 #Normally, checkpoints are stored in a dictionary until they are exported.  
 #The exporting happens either when requested to from add_citation or from compile_consolidated_log.
@@ -173,7 +172,6 @@ def compile_consolidated_log(file_path="", compile_checkpoints=False):
     consolidated_dict = copy.deepcopy(citations_dict) #Make a copy of citations_dict before emptying it.
     if compile_checkpoints == True:
         compile_checkpoints_log()
-        
     #Grab the citations from the checkpoint log.        
     if checkpoint_log_filename in os.listdir("./CITATIONS"): #check if the file exists already.
         checkpoint_log_exists = True
@@ -206,7 +204,6 @@ def compile_consolidated_log(file_path="", compile_checkpoints=False):
                             consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
                         else:
                             consolidated_dict[id] = citation_entry
-
     with open("./CITATIONS/" + consolidated_log_filename, 'w') as file:
         file.write('#Warning: CiteSoftwareConsolidatedLog.txt may not include all softwares used. It is the end-user’s responsibility to verify that the no software citations are missing relative to those recorded in the complete logfile, CiteSoftwareCheckpointsLog.txt . This verification is important to do when using two or more codes together for the first time.\n')
         write_dict_to_output(file, consolidated_dict)
