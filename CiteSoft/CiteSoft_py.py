@@ -96,11 +96,12 @@ def add_citation(unique_id, software_name, write_immediately=True, **kwargs):
 
 #This function creates cff files for each entry based. Th CFF files name is the unique_id converted to a valid file name.
 def create_cff(entry, file_path=""):
+    if "CITATIONS" not in os.listdir():
+        os.mkdir("./CITATIONS")
     import re
     unique_id_string = entry['unique_id']
     valid_file_name_string = re.sub('[^\w_.)( -]', '_', unique_id_string)#remove characters from unique_id_string that are disallowed in filenames strings. Replace with "_". #TODO: We should using an encoding rather than this simple replace, that way the unique_id conversion will be 1:1 and reversible. The reason I did not use an encoding (yet) is I wanted to make sure that the encoding used is easily replicated in all programming languages. It should not be python specific -- but maybe it would be okay if it is?
     cff_filename = valid_file_name_string + ".cff"
-    import os
     if os.path.exists("./" + file_path + "/CITATIONS/IndividualCff/"):
         pass
     else:
@@ -131,6 +132,8 @@ def write_dict_to_cff(file, citation_dict):
             file.write(field + ": " + str(citation_dict[field][0]) + '\n') #Consider changing: currently CiteSoft makes all optional fields into a list, including the version number. So we are taking the first item in the list. 
 
 def update_unique_IDs_file(file_path=""):
+    if "CITATIONS" not in os.listdir():
+        os.mkdir("./CITATIONS")
     written_unique_IDs = []
     if uniqueIDs_log_filename in os.listdir("./CITATIONS"): #check if the file exists already.
         #if it exists, grab the items from it and put them into written_unique_IDs.
@@ -157,6 +160,8 @@ def update_unique_IDs_file(file_path=""):
 #Normally, checkpoints are stored in a dictionary until they are exported.  
 #The exporting happens either when requested to from add_citation or from compile_consolidated_log.
 def compile_checkpoints_log(file_path="", empty_checkpoints=True):
+    if "CITATIONS" not in os.listdir():
+        os.mkdir("./CITATIONS")
     update_unique_IDs_file(file_path=file_path) #write any unique ideas
     with open("./" + file_path + "/CITATIONS/" + checkpoint_log_filename, 'a') as file:
         write_dict_to_output(file, citations_dict)
@@ -167,6 +172,8 @@ def compile_checkpoints_log(file_path="", empty_checkpoints=True):
 
 #The consolidated log consolidates from up to a few places. It non-optionally takes the entries currently in memory (citations_dict), optionally adds in any written CheckpointsLog, and non-optionally reads any existing ConsolidatedLog.  From these sets, it excludes duplicates, makes a set of the remaining unique_ids, and then writes to the consolidated log.
 def compile_consolidated_log(file_path="", compile_checkpoints=False): 
+    if "CITATIONS" not in os.listdir():
+        os.mkdir("./CITATIONS")
     #compile_checkpoints =True must be used sparingly. Otherwise it can slow down performance when the checkpoints file gets large.
     import copy
     consolidated_dict = copy.deepcopy(citations_dict) #Make a copy of citations_dict before emptying it.
