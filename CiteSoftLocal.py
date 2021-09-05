@@ -25,11 +25,11 @@ valid_required_fields = ['timestamp', 'unique_id', 'software_name']
 
 ########## START SECTION OF CODE WHICH HAS FUNCTIONS THAT ARE TO BE USED AS DECORATORS ################
 
-#The module_call_cite function is intended to be used as a decorator.
+#The function_call_cite function is intended to be used as a decorator.
 #It is similar to the example "decorator_maker_with_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
 #To find the example, search for "decorator_maker_with_arguments" at the above link.
 #function "inner" below is named 'decorator' in the above link and 'wrapper' below is named 'wrapper' in the above link.
-def module_call_cite(unique_id, software_name, write_immediately=False, **add_args):
+def function_call_cite(unique_id, software_name, write_immediately=False, **add_args):
     #the unique_id and the software_name are the only truly required args.
     #Optional args are: ["version", "cite", "author", "doi", "url", "encoding", "misc"]
     #Every arg must be a string.

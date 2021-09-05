@@ -24,24 +24,24 @@ kwargs = {"version": version, "author": ["Aditya Savara", "CPH"], "url": "https:
 #The 'write_immediately = True' causes the checkpoint to be written at the time of export rather than stored.
 CiteSoft.import_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", write_immediately=True, **kwargs)
 
-@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
+@CiteSoft.function_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
 def add(num1, num2):
     return num1 + num2
 
-@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
+@CiteSoft.function_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
 def subtract(num1, num2):
     return num1 - num2
 
-@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
+@CiteSoft.function_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
 def multiply(num1, num2):
     return num1 * num2
 
-@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
+@CiteSoft.function_call_cite(unique_id=MathExample_unique_id, software_name="CiteSoft Math Example", **kwargs)
 def divide(num1, num2):
     return num1 / num2
 
-@CiteSoft.after_call_compile_consolidated_log() #This will cause the consolidated log to be complied after the mean function is called. #note that we put it after the module_call_cite so that it is a wrapper around that wrapper and occurs second.
-@CiteSoft.module_call_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", **kwargs)
+@CiteSoft.after_call_compile_consolidated_log() #This will cause the consolidated log to be complied after the mean function is called. #note that we put it after the function_call_cite so that it is a wrapper around that wrapper and occurs second.
+@CiteSoft.function_call_cite(unique_id=MathExample_unique_id, software_name="MathLib Example", **kwargs)
 def mean(list_of_num):
     result = 0
     for num in list_of_num:
@@ -53,15 +53,15 @@ math_unique_id = "https://docs.python.org/3/library/math.html"
 math_software_name = "The Python Library Reference: Mathematical functions"
 math_version = str(sys.version).split("|")[0] #This is the python version.
 math_kwargs = {"version": math_version, "author": "Van Rossum, Guido", "cite": "Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.", "url": "https://docs.python.org/3/library/math.html"}
-@CiteSoft.module_call_cite(unique_id=math_unique_id, software_name=math_software_name, **math_kwargs)
+@CiteSoft.function_call_cite(unique_id=math_unique_id, software_name=math_software_name, **math_kwargs)
 def sqrt(num):
     return math.sqrt(num)
 
-@CiteSoft.module_call_cite(MathExample_unique_id, software_name, **kwargs)
+@CiteSoft.function_call_cite(MathExample_unique_id, software_name, **kwargs)
 def sqr(num):
     return multiply(num, num)
 
-@CiteSoft.module_call_cite(MathExample_unique_id, software_name, **kwargs)
+@CiteSoft.function_call_cite(MathExample_unique_id, software_name, **kwargs)
 def sample_variance(list_of_num):
     meanVal = mean(list_of_num)
     result = 0
@@ -70,19 +70,19 @@ def sample_variance(list_of_num):
     result = divide(result, (len(list_of_num) - 1))
     return result
 
-@CiteSoft.module_call_cite(MathExample_unique_id, software_name, **kwargs)
+@CiteSoft.function_call_cite(MathExample_unique_id, software_name, **kwargs)
 def std_dev(list_of_num):
     return sqrt(sample_variance(list_of_num))
 
-@CiteSoft.after_call_compile_consolidated_log() #This will cause the consolidated log to be complied after the mean function is called. #note that we put it after the module_call_cite so that it is a wrapper around that wrapper and occurs second.
-@CiteSoft.module_call_cite(MathExample_unique_id, software_name, **kwargs)
+@CiteSoft.after_call_compile_consolidated_log() #This will cause the consolidated log to be complied after the mean function is called. #note that we put it after the function_call_cite so that it is a wrapper around that wrapper and occurs second.
+@CiteSoft.function_call_cite(MathExample_unique_id, software_name, **kwargs)
 def cite_me(): #This is just an example of how a package creating dev-user could make a function that other dev-users relying on their package could call at the very end of doing everything, so that no calls to CiteSoft would need to occur during runtime.
     pass
 
 #note that the above lines of code simply add to the file CiteSoftwareCheckPoints
 #if one wants to create a consolidated log that removes duplicates, one can call a CiteSoft function
 #This is considered appropriate to do at the end of a complicated program, but is not necessary.
-#it would have been possible to also use decorators on any of the above functions, like @CiteSoft.after_call_compile_checkpoints_log or @CiteSoft.after_call_compile_consolidated_log.  Note that chained/stacked decorators are performed in "first in last out" order, since they are wrappers on wrappers. So if a function has both @CiteSoft.module_call_cite and @after_call_compile_consolidated_log, the @CiteSoft.module_call_cite should be second.
+#it would have been possible to also use decorators on any of the above functions, like @CiteSoft.after_call_compile_checkpoints_log or @CiteSoft.after_call_compile_consolidated_log.  Note that chained/stacked decorators are performed in "first in last out" order, since they are wrappers on wrappers. So if a function has both @CiteSoft.function_call_cite and @after_call_compile_consolidated_log, the @CiteSoft.function_call_cite should be second.
 def export_citation_checkpoints(filepath=""):
     if filepath is not "":
         CiteSoft.compile_checkpoints_log(filepath)

@@ -2,7 +2,7 @@
 ---
 -
     timestamp: >-
-        2021-09-04T19:33:58
+        2021-09-04T21:51:42
     unique_id: >-
         https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
     software_name: >-
@@ -15,9 +15,12 @@
             Aditya Savara
         - >-
             CPH
+    url:
+        - >-
+            https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
 -
     timestamp: >-
-        2021-09-04T19:34:00
+        2021-09-04T21:51:44
     unique_id: >-
         https://docs.python.org/3/library/math.html
     software_name: >-
@@ -31,3 +34,6 @@
     cite:
         - >-
             Van Rossum, G. (2020). The Python Library Reference, release 3.8.2. Python Software Foundation.
+    url:
+        - >-
+            https://docs.python.org/3/library/math.html

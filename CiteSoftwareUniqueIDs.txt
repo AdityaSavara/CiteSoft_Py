@@ -1,0 +1,2 @@
+https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+https://docs.python.org/3/library/math.html

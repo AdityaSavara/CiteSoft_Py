@@ -9,12 +9,16 @@ import os
 def eprint(*args, **kwargs):#Print to stderr
     print(*args, file=sys.stderr, **kwargs)
 
+######GLOBAL VARIABLES SECTION######
 citations_dict = {}
 checkpoint_log_filename = "CiteSoftwareCheckpointsLog.txt"
 consolidated_log_filename = "CiteSoftwareConsolidatedLog.txt"
+uniqueIDs_log_filename  = "CiteSoftwareUniqueIDs.txt"
+consolidated_CFF_filename = "CITATIONS.cff"
 validate_on_fly = True#Flag.  If set to true, argument names will be checked in real time, and invalid argument names will result in a printed warning to the user
 valid_optional_fields = ["version", "cite", "author", "doi", "url", "encoding", "misc"]
 valid_required_fields = ['timestamp', 'unique_id', 'software_name']
+######END OF GLOBAL VARIABLES SECTION######
 
 #TODO: Make a global (in the module) for the absolute path to the log.  That way other modules can change the file_path through CiteSoft.set_log_abs_path(...) or by CiteSoft.log_abs_path = ...
 #cwd = os...path....
@@ -24,12 +28,16 @@ valid_required_fields = ['timestamp', 'unique_id', 'software_name']
     # log_abs_path = abs_path
 
 ########## START SECTION OF CODE WHICH HAS FUNCTIONS THAT ARE TO BE USED AS DECORATORS ################
-
-#The module_call_cite function is intended to be used as a decorator.
-#It is similar to the example "decorator_maker_with_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
+#The below functions are intended to be used as decorators.
+#They are similar to the example "decorator_maker_with_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
 #To find the example, search for "decorator_maker_with_arguments" at the above link.
 #function "inner" below is named 'decorator' in the above link and 'wrapper' below is named 'wrapper' in the above link.
-def module_call_cite(unique_id, software_name, write_immediately=False, **add_args):
+
+
+#The function_call_cite function is intended to be used for creating a citation any time the wrapped function is called.
+#This is expected to be the most common usage of CiteSoft.
+#write_immediately means that the citations would be written immediately when encountered, not just stored in memory.
+def function_call_cite(unique_id, software_name, write_immediately=True, **add_args):
     #the unique_id and the software_name are the only truly required args.
     #Optional args are: ["version", "cite", "author", "doi", "url", "encoding", "misc"]
     #Every arg must be a string.
@@ -41,10 +49,7 @@ def module_call_cite(unique_id, software_name, write_immediately=False, **add_ar
         return wrapper
     return inner
 
-#The after_call_compile_checkpoints_log function is intended to be used as a decorator.
-#It is similar to the example "decorator_maker_with_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
-#To find the example, search for "decorator_maker_with_arguments" at the above link.
-#function "inner" below is named 'decorator' in the above link and 'wrapper' below is named 'wrapper' in the above link.
+#The after_call_compile_checkpoints_log function is intended to be used as a decorator and only adds citations *after* the function call is finished.
 def after_call_compile_checkpoints_log(file_path="", empty_checkpoints=True):
     def inner(func):
         def wrapper(*args, **kwargs):
@@ -54,10 +59,7 @@ def after_call_compile_checkpoints_log(file_path="", empty_checkpoints=True):
         return wrapper
     return inner
 
-#The after_call_compile_consolidated_log function is intended to be used as a decorator.
-#It is similar to the example "decorator_maker_with_arguments" at https://www.datacamp.com/community/tutorials/decorators-python
-#To find the example, search for "decorator_maker_with_arguments" at the above link.
-#function "inner" below is named 'decorator' in the above link and 'wrapper' below is named 'wrapper' in the above link.
+#The after_call_compile_consolidated_log function is intended to be used as a decorator and makes the consolided log *after* the function call is finished.
 def after_call_compile_consolidated_log(file_path="", compile_checkpoints=False):
     def inner(func):
         def wrapper(*args, **kwargs):
@@ -69,12 +71,14 @@ def after_call_compile_consolidated_log(file_path="", compile_checkpoints=False)
 
 ########## END SECTION OF CODE WHICH HAS FUNCTIONS THAT ARE TO BE USED AS DECORATORS ################
 
-#The import_cite function is intended to be used at the top of a sofware module.
-def import_cite(unique_id, software_name, write_immediately=False, **kwargs):
+#The import_cite function is intended to be used at the top of a sofware module. This would be used when a module should be cited each time it is imported.
+#write_immediately means that the citations would be written immediately when encountered, not just stored in memory.
+def import_cite(unique_id, software_name, write_immediately=True, **kwargs):
     add_citation(unique_id, software_name, write_immediately, **kwargs)
 
 #The add_citation function is the method which actually adds a citation.
-def add_citation(unique_id, software_name, write_immediately=False, **kwargs):
+#It's not intended to be called directly by the dev-user, but it could be.
+def add_citation(unique_id, software_name, write_immediately=True, **kwargs):
     new_entry = {'unique_id' : unique_id, 'software_name' : software_name, 'timestamp' : get_timestamp()}
     for key in kwargs:
         if validate_on_fly:
@@ -95,13 +99,16 @@ def create_cff(entry, file_path=""):
     import re
     unique_id_string = entry['unique_id']
     valid_file_name_string = re.sub('[^\w_.)( -]', '_', unique_id_string)#remove characters from unique_id_string that are disallowed in filenames strings. Replace with "_". #TODO: We should using an encoding rather than this simple replace, that way the unique_id conversion will be 1:1 and reversible. The reason I did not use an encoding (yet) is I wanted to make sure that the encoding used is easily replicated in all programming languages. It should not be python specific -- but maybe it would be okay if it is?
-    cff_filename = valid_file_name + ".cff"
+    cff_filename = valid_file_name_string + ".cff"
     import os
     if os.path.exists("./" + file_path + "/CITATIONS/"):
         pass
     else:
        os.mkdir("./" + file_path + "/CITATIONS/")
     with open("./" + file_path + "/CITATIONS/" + cff_filename, 'w') as file:
+        write_dict_to_cff(file, entry)
+    #now write to the consolided CFF file (since we are appending, it will be created if it does not exist):
+    with open("./" + file_path + "/CITATIONS/" + consolidated_CFF_filename, 'w') as file:
         write_dict_to_cff(file, entry)
 
 #As of August 4th 2021, we will just make minimal CFF files with the minimal required fields:
@@ -122,9 +129,35 @@ def write_dict_to_cff(file, citation_dict):
         if field in citation_dict:
             file.write(field + ": " + str(citation_dict[field][0]) + '\n') #Consider changing: currently CiteSoft makes all optional fields into a list, including the version number. So we are taking the first item in the list. 
 
+def update_unique_IDs_file(file_path=""):
+    written_unique_IDs = []
+    if uniqueIDs_log_filename in os.listdir(): #check if the file exists already.
+        #if it exists, grab the items from it and put them into written_unique_IDs.
+        with open(file_path + uniqueIDs_log_filename, 'r') as file:
+            written_unique_IDs = file.readlines()            
+    #To consider: Do we need to specify what kind of linebreak characters are used? No, just use "\n" in the specifications.
+    for unique_id_index, unique_id in enumerate(written_unique_IDs):
+        written_unique_IDs[unique_id_index] = unique_id[:-1] #remove the \n at the end of each string.
+    
+    #remove the existing unique_IDs from the citations_dict.
+    current_keys = list(citations_dict.keys())
+    for dict_key in current_keys:
+        current_unique_id = citations_dict[dict_key]['unique_id']
+        if current_unique_id in written_unique_IDs:
+            del citations_dict[current_unique_id]
+    
+    #write the remaining unique_id values.
+    with open(file_path + uniqueIDs_log_filename, 'a') as file:
+        for dict_key in citations_dict:
+            current_unique_id = citations_dict[dict_key]['unique_id']
+            if current_unique_id not in written_unique_IDs:
+                file.write(current_unique_id + "\n")
+               
+
 #Normally, checkpoints are stored in a dictionary until they are exported.  
 #The exporting happens either when requested to from add_citation or from compile_consolidated_log.
 def compile_checkpoints_log(file_path="", empty_checkpoints=True):
+    update_unique_IDs_file(file_path=file_path) #write any unique ideas
     with open(file_path + checkpoint_log_filename, 'a') as file:
         write_dict_to_output(file, citations_dict)
     for dict_key in citations_dict:
@@ -179,22 +212,23 @@ def compile_consolidated_log(file_path="", compile_checkpoints=False):
 
 #Takes a dictionary, converts it to CiteSoft-compatible YAML, and writes it to file
 def write_dict_to_output(file, dictionary):
-    file.write('---\n')
-    for key,dict in dictionary.items():
-        file.write('-\n')
-        for s in valid_required_fields:
-            file.write('    ' + s + ': >-\n')
-            file.write('    '*2 + dict[s] + '\n')
-        for subkey in dict:
-            if subkey not in valid_required_fields:
-                file.write('    ' + subkey + ':\n')
-                if type(dict[subkey]) is list:
-                    for i in dict[subkey]:
+    if len(dictionary) > 0:
+        file.write('---\n')
+        for key,dict in dictionary.items():
+            file.write('-\n')
+            for s in valid_required_fields:
+                file.write('    ' + s + ': >-\n')
+                file.write('    '*2 + dict[s] + '\n')
+            for subkey in dict:
+                if subkey not in valid_required_fields:
+                    file.write('    ' + subkey + ':\n')
+                    if type(dict[subkey]) is list:
+                        for i in dict[subkey]:
+                            file.write('    '*2 + '- >-\n')
+                            file.write('    '*3 + i + '\n')
+                    else:
                         file.write('    '*2 + '- >-\n')
-                        file.write('    '*3 + i + '\n')
-                else:
-                    file.write('    '*2 + '- >-\n')
-                    file.write('    '*3 + dict[subkey] + '\n')
+                        file.write('    '*3 + dict[subkey] + '\n')
 
 #Helper Functions
 
