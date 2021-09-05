@@ -93,7 +93,8 @@ def add_citation(unique_id, software_name, write_immediately=False, **kwargs):
 #This function creates cff files for each entry based. Th CFF files name is the unique_id converted to a valid file name.
 def create_cff(entry, file_path=""):
     import re
-    valid_file_name = re.sub('[^\w_.)( -]', '_', entry['unique_id'])#remove chracters disallowed in filenames. Replace with "_"
+    unique_id_string = entry['unique_id']
+    valid_file_name_string = re.sub('[^\w_.)( -]', '_', unique_id_string)#remove characters from unique_id_string that are disallowed in filenames strings. Replace with "_". #TODO: We should using an encoding rather than this simple replace, that way the unique_id conversion will be 1:1 and reversible. The reason I did not use an encoding (yet) is I wanted to make sure that the encoding used is easily replicated in all programming languages. It should not be python specific -- but maybe it would be okay if it is?
     cff_filename = valid_file_name + ".cff"
     import os
     if os.path.exists("./" + file_path + "/CITATIONS/"):
