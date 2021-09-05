@@ -1,16 +1,6 @@
-cff-version: 1.2.0
-message:2021-09-05T11:36:58
-title: The Python Library Reference: Mathematical functions
-identifiers: 
- - type: unique_id
-   value: https://docs.python.org/3/library/math.html
-authors: 
- - name: Van Rossum, Guido
-version: 3.6.3 
-url: https://docs.python.org/3/library/math.html
 ---
 cff-version: 1.2.0
-message:2021-09-05T11:40:24
+message:2021-09-05T11:48:07
 title: MathLib Example
 identifiers: 
  - type: unique_id
@@ -22,7 +12,7 @@ version: 1.0.0
 url: https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
 ---
 cff-version: 1.2.0
-message:2021-09-05T11:40:26
+message:2021-09-05T11:48:09
 title: The Python Library Reference: Mathematical functions
 identifiers: 
  - type: unique_id

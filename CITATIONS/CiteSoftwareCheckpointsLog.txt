@@ -1,8 +1,7 @@
-#Warning: CiteSoftwareConsolidatedLog.txt may not include all softwares used. It is the end-user’s responsibility to verify that the no software citations are missing relative to those recorded in the complete logfile, CiteSoftwareCheckpointsLog.txt . This verification is important to do when using two or more codes together for the first time.
 ---
 -
     timestamp: >-
-        2021-09-05T11:40:24
+        2021-09-05T11:48:07
     unique_id: >-
         https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
     software_name: >-
@@ -18,9 +17,10 @@
     url:
         - >-
             https://github.com/AdityaSavara/CiteSoft_py/blob/master/MathExample.py
+---
 -
     timestamp: >-
-        2021-09-05T11:40:26
+        2021-09-05T11:48:09
     unique_id: >-
         https://docs.python.org/3/library/math.html
     software_name: >-

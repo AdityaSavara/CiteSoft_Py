@@ -132,9 +132,9 @@ def write_dict_to_cff(file, citation_dict):
 
 def update_unique_IDs_file(file_path=""):
     written_unique_IDs = []
-    if uniqueIDs_log_filename in os.listdir(): #check if the file exists already.
+    if uniqueIDs_log_filename in os.listdir("./CITATIONS"): #check if the file exists already.
         #if it exists, grab the items from it and put them into written_unique_IDs.
-        with open(file_path + uniqueIDs_log_filename, 'r') as file:
+        with open("./" + file_path + "/CITATIONS/" + uniqueIDs_log_filename, 'r') as file:
             written_unique_IDs = file.readlines()            
     #To consider: Do we need to specify what kind of linebreak characters are used? No, just use "\n" in the specifications.
     for unique_id_index, unique_id in enumerate(written_unique_IDs):
@@ -148,7 +148,7 @@ def update_unique_IDs_file(file_path=""):
             del citations_dict[current_unique_id]
     
     #write the remaining unique_id values.
-    with open(file_path + uniqueIDs_log_filename, 'a') as file:
+    with open("./" + file_path + "/CITATIONS/" + uniqueIDs_log_filename, 'a') as file:
         for dict_key in citations_dict:
             current_unique_id = citations_dict[dict_key]['unique_id']
             if current_unique_id not in written_unique_IDs:
@@ -159,7 +159,7 @@ def update_unique_IDs_file(file_path=""):
 #The exporting happens either when requested to from add_citation or from compile_consolidated_log.
 def compile_checkpoints_log(file_path="", empty_checkpoints=True):
     update_unique_IDs_file(file_path=file_path) #write any unique ideas
-    with open(file_path + checkpoint_log_filename, 'a') as file:
+    with open("./" + file_path + "/CITATIONS/" + checkpoint_log_filename, 'a') as file:
         write_dict_to_output(file, citations_dict)
     for dict_key in citations_dict:
         create_cff(citations_dict[dict_key])
@@ -175,12 +175,12 @@ def compile_consolidated_log(file_path="", compile_checkpoints=False):
         compile_checkpoints_log()
         
     #Grab the citations from the checkpoint log.        
-    if checkpoint_log_filename in os.listdir(): #check if the file exists already.
+    if checkpoint_log_filename in os.listdir("./CITATIONS"): #check if the file exists already.
         checkpoint_log_exists = True
     else:
         checkpoint_log_exists = False
     if checkpoint_log_exists == True: #can only read file if it exists.
-        with open(checkpoint_log_filename, 'r') as file:
+        with open("./CITATIONS/" + checkpoint_log_filename, 'r') as file:
             yaml_file_contents = yaml.safe_load_all(file)
             for yaml_document in yaml_file_contents:
                 if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
@@ -191,12 +191,12 @@ def compile_consolidated_log(file_path="", compile_checkpoints=False):
                         else:
                             consolidated_dict[id] = citation_entry        
     #Grab the citations from the consolidated log.    
-    if consolidated_log_filename in os.listdir(): #check if the file exists already.
+    if consolidated_log_filename in os.listdir("./CITATIONS"): #check if the file exists already.
         consolidated_log_exists = True
     else:
         consolidated_log_exists = False
     if consolidated_log_exists == True: #can only read file if it exists.
-        with open(file_path + consolidated_log_filename, "r") as file:
+        with open("./" + file_path + "/CITATIONS/" + consolidated_log_filename, "r") as file:
             yaml_file_contents = yaml.safe_load_all(file)
             for yaml_document in yaml_file_contents:
                 if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
@@ -207,7 +207,7 @@ def compile_consolidated_log(file_path="", compile_checkpoints=False):
                         else:
                             consolidated_dict[id] = citation_entry
 
-    with open(consolidated_log_filename, 'w') as file:
+    with open("./CITATIONS/" + consolidated_log_filename, 'w') as file:
         file.write('#Warning: CiteSoftwareConsolidatedLog.txt may not include all softwares used. It is the end-user’s responsibility to verify that the no software citations are missing relative to those recorded in the complete logfile, CiteSoftwareCheckpointsLog.txt . This verification is important to do when using two or more codes together for the first time.\n')
         write_dict_to_output(file, consolidated_dict)
 
