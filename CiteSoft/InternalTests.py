@@ -51,9 +51,9 @@ def test_wrapper_func():
     a = 5
     b = 12
     print("Adding %d and %d", a, b)
-    unique_id = "add_test_with_module_call_cite"
-    software_name = "CiteSoft_Module_Call_Cite"
-    @module_call_cite(unique_id, software_name)
+    unique_id = "add_test_with_function_call_cite"
+    software_name = "CiteSoft_function_call_cite"
+    @function_call_cite(unique_id, software_name)
     def func_cite_test_add(a1, b1):
         return a1 + b1
     

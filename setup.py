@@ -20,7 +20,7 @@ URL = 'https://github.com/AdityaSavara/CiteSoft_py'
 EMAIL = 'AditySavara2008@u.northwestern.edu'  
 AUTHOR = 'Aditya Savara'
 REQUIRES_PYTHON = '>=3.0.0'
-VERSION = '0.0.3'
+VERSION = '0.3.6'
 LICENSE = 'BSD-3-Clause'
 
 # What packages are required for this module to be executed?
