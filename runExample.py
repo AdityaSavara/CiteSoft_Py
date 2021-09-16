@@ -18,8 +18,8 @@ def main():
  
     #However, that still does not create a citesoft consolidated software log.
     #We will do so below -- though this could of course be done by a wrapper within the dev-user's module.
-    import CiteSoft
-    CiteSoft.compile_consolidated_log()
+    #Note that we do not use "import citesoft", we call the pointer inside the module.
+    MathExample.CiteSoft.compile_consolidated_log()
     
 if __name__ == '__main__':
     main()
