@@ -48,7 +48,8 @@ def function_call_cite(unique_id, software_name, write_immediately=True, **add_a
             return result
         return wrapper
     return inner
-    
+
+#function_call_cite used to be called module_call_cite, so the below line is for backwards compatibility.    
 module_call_cite = function_call_cite
 
 #The after_call_compile_checkpoints_log function is intended to be used as a decorator and only adds citations *after* the function call is finished.
