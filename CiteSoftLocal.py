@@ -49,6 +49,8 @@ def function_call_cite(unique_id, software_name, write_immediately=True, **add_a
         return wrapper
     return inner
 
+module_call_cite = function_call_cite
+
 #The after_call_compile_checkpoints_log function is intended to be used as a decorator and only adds citations *after* the function call is finished.
 def after_call_compile_checkpoints_log(file_path="", empty_checkpoints=True):
     def inner(func):
