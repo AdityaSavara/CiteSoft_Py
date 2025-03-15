@@ -98,7 +98,7 @@ def add_citation(unique_id, software_name, write_immediately=True, **kwargs):
         compile_checkpoints_log()
 
 #This function creates cff files for each entry based. Th CFF files name is the unique_id converted to a valid file name.
-def create_cff(entry, file_path=""):
+def create_cff(entry, file_path="", encoding='utf-8'):
     if "CITATIONS" not in os.listdir():
         os.mkdir("./CITATIONS")
     import re
@@ -109,10 +109,10 @@ def create_cff(entry, file_path=""):
         pass
     else:
        os.mkdir("./" + file_path + "/CITATIONS/IndividualCff/")
-    with open("./" + file_path + "/CITATIONS/IndividualCff/" + cff_filename, 'w') as file:
+    with open("./" + file_path + "/CITATIONS/IndividualCff/" + cff_filename, 'w', encoding=encoding) as file:
         write_dict_to_cff(file, entry)
     #now write to the consolided CFF file (since we are appending, it will be created if it does not exist):
-    with open("./" + file_path + "/CITATIONS/" + consolidated_CFF_filename, 'a') as file:
+    with open("./" + file_path + "/CITATIONS/" + consolidated_CFF_filename, 'a', encoding=encoding) as file:
         file.write('---\n')
         write_dict_to_cff(file, entry)
 
@@ -134,13 +134,13 @@ def write_dict_to_cff(file, citation_dict):
         if field in citation_dict:
             file.write(field + ": " + str(citation_dict[field][0]) + '\n') #Consider changing: currently CiteSoft makes all optional fields into a list, including the version number. So we are taking the first item in the list. 
 
-def update_unique_IDs_file(file_path=""):
+def update_unique_IDs_file(file_path="", encoding='utf-8'):
     if "CITATIONS" not in os.listdir():
         os.mkdir("./CITATIONS")
     written_unique_IDs = []
     if uniqueIDs_log_filename in os.listdir("./CITATIONS"): #check if the file exists already.
         #if it exists, grab the items from it and put them into written_unique_IDs.
-        with open("./" + file_path + "/CITATIONS/" + uniqueIDs_log_filename, 'r') as file:
+        with open("./" + file_path + "/CITATIONS/" + uniqueIDs_log_filename, 'r', encoding=encoding) as file:
             written_unique_IDs = file.readlines()            
     #To consider: Do we need to specify what kind of linebreak characters are used? No, just use "\n" in the specifications.
     for unique_id_index, unique_id in enumerate(written_unique_IDs):
@@ -154,7 +154,7 @@ def update_unique_IDs_file(file_path=""):
             del citations_dict[current_unique_id]
     
     #write the remaining unique_id values.
-    with open("./" + file_path + "/CITATIONS/" + uniqueIDs_log_filename, 'a') as file:
+    with open("./" + file_path + "/CITATIONS/" + uniqueIDs_log_filename, 'a', encoding=encoding) as file:
         for dict_key in citations_dict:
             current_unique_id = citations_dict[dict_key]['unique_id']
             if current_unique_id not in written_unique_IDs:
@@ -162,11 +162,11 @@ def update_unique_IDs_file(file_path=""):
 
 #Normally, checkpoints are stored in a dictionary until they are exported.  
 #The exporting happens either when requested to from add_citation or from compile_consolidated_log.
-def compile_checkpoints_log(file_path="", empty_checkpoints=True):
+def compile_checkpoints_log(file_path="", empty_checkpoints=True, encoding='utf-8'):
     if "CITATIONS" not in os.listdir():
         os.mkdir("./CITATIONS")
     update_unique_IDs_file(file_path=file_path) #write any unique ideas
-    with open("./" + file_path + "/CITATIONS/" + checkpoint_log_filename, 'a') as file:
+    with open("./" + file_path + "/CITATIONS/" + checkpoint_log_filename, 'a', encoding=encoding) as file:
         write_dict_to_output(file, citations_dict)
     for dict_key in citations_dict:
         create_cff(citations_dict[dict_key])
@@ -174,7 +174,7 @@ def compile_checkpoints_log(file_path="", empty_checkpoints=True):
         citations_dict.clear()
 
 #The consolidated log consolidates from up to a few places. It non-optionally takes the entries currently in memory (citations_dict), optionally adds in any written CheckpointsLog, and non-optionally reads any existing ConsolidatedLog.  From these sets, it excludes duplicates, makes a set of the remaining unique_ids, and then writes to the consolidated log.
-def compile_consolidated_log(file_path="", compile_checkpoints=False): 
+def compile_consolidated_log(file_path="", compile_checkpoints=False, encoding='utf-8'): 
     if "CITATIONS" not in os.listdir():
         os.mkdir("./CITATIONS")
     #compile_checkpoints =True must be used sparingly. Otherwise it can slow down performance when the checkpoints file gets large.
@@ -188,7 +188,7 @@ def compile_consolidated_log(file_path="", compile_checkpoints=False):
     else:
         checkpoint_log_exists = False
     if checkpoint_log_exists == True: #can only read file if it exists.
-        with open("./CITATIONS/" + checkpoint_log_filename, 'r') as file:
+        with open("./CITATIONS/" + checkpoint_log_filename, 'r', encoding=encoding) as file:
             yaml_file_contents = yaml.safe_load_all(file)
             for yaml_document in yaml_file_contents:
                 if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
@@ -204,7 +204,7 @@ def compile_consolidated_log(file_path="", compile_checkpoints=False):
     else:
         consolidated_log_exists = False
     if consolidated_log_exists == True: #can only read file if it exists.
-        with open("./" + file_path + "/CITATIONS/" + consolidated_log_filename, "r") as file:
+        with open("./" + file_path + "/CITATIONS/" + consolidated_log_filename, "r", encoding=encoding) as file:
             yaml_file_contents = yaml.safe_load_all(file)
             for yaml_document in yaml_file_contents:
                 if yaml_document != None: #This is for 'blank' documents of "---" with nothing after that symbol.
@@ -214,7 +214,7 @@ def compile_consolidated_log(file_path="", compile_checkpoints=False):
                             consolidated_dict[id] = compare_same_id(consolidated_dict[id], citation_entry)
                         else:
                             consolidated_dict[id] = citation_entry
-    with open("./CITATIONS/" + consolidated_log_filename, 'w') as file:
+    with open("./CITATIONS/" + consolidated_log_filename, 'w', encoding=encoding) as file:
         file.write('#Warning: CiteSoftwareConsolidatedLog.txt may not include all softwares used. It is the end-user’s responsibility to verify that the no software citations are missing relative to those recorded in the complete logfile, CiteSoftwareCheckpointsLog.txt . This verification is important to do when using two or more codes together for the first time.\n')
         write_dict_to_output(file, consolidated_dict)
 
